@@ -1,5 +1,6 @@
 ﻿using System;
 using CR.ViewModels.Core;
+using CR.ViewModels.Core.Exceptions;
 using NUnit.Framework;
 
 namespace CR.ViewModels.Tests

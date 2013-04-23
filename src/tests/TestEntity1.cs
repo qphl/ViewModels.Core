@@ -20,8 +20,7 @@
         {
             if (ReferenceEquals(null, obj)) return false;
             if (ReferenceEquals(this, obj)) return true;
-            if (obj.GetType() != this.GetType()) return false;
-            return Equals((TestEntity1) obj);
+            return obj.GetType() == this.GetType() && Equals((TestEntity1) obj);
         }
 
         public override int GetHashCode()
