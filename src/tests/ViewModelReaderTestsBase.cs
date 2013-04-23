@@ -222,7 +222,7 @@ namespace CR.ViewModels.Tests
             Writer.Delete<TestEntity1>(entity1.Id);
             Writer.Add(entity1.Id, entity1);
 
-            Assert.AreEqual(entity1,Reader.GetByKey<TestEntity1>(entity1.Id));
+            Assert.AreEqual(entity1, Reader.GetByKey<TestEntity1>(entity1.Id));
         }
 
         [Test]
@@ -258,7 +258,7 @@ namespace CR.ViewModels.Tests
             Assert.Throws<ArgumentException>(() => Writer.Delete<TestEntity1>(""));
         }
 
-    #endregion
+        #endregion
 
         #region Updating
 
@@ -274,6 +274,75 @@ namespace CR.ViewModels.Tests
             Assert.Throws<ArgumentException>(() => Writer.Update<TestEntity1>("", e => { }));
         }
 
+        [Test]
+        public void update_with_null_action_throws_an_argument_null_exception()
+        {
+            Assert.Throws<ArgumentNullException>(() => Writer.Update<TestEntity1>("something", null));
+        }
+
+        [Test]
+        public void updating_with_an_empty_repository_throws_an_entity_not_found_exception()
+        {
+            Assert.Throws<EntityNotFoundException>(() => Writer.Update<TestEntity1>("someKey", e => { }));
+        }
+
+        [Test]
+        public void updating_an_entity_that_is_not_in_the_repository_will_throw_an_entity_not_found_exception()
+        {
+            var entity1 = new TestEntity1("woftam2", "string2");
+            Writer.Add(entity1.Id, entity1);
+
+            Assert.Throws<EntityNotFoundException>(() => Writer.Update<TestEntity1>("someKey", e => { }));
+        }
+
+        [Test]
+        public void updating_an_entity_applies_the_update_action()
+        {
+            var action = new Action<TestEntity1>(e => e.Field1 = "newvalue");
+            const string id = "id";
+            var entity1 = new TestEntity1(id, "initialValue");
+            var expected = new TestEntity1(id, "initialValue");
+            action(expected);
+            
+            Writer.Add(entity1.Id, entity1);
+            Writer.Update(entity1.Id, action);
+            var actual = Reader.GetByKey<TestEntity1>(entity1.Id);
+
+            Assert.AreEqual(expected, actual);
+        }
+
+        [Test]
+        public void updating_an_entity_leaves_others_untouched()
+        {
+            var action = new Action<TestEntity1>(e => e.Field1 = "newvalue");
+            const string id = "id";
+            var entity1 = new TestEntity1(id, "initialValue");
+            var entity2 = new TestEntity1("id2", "initialValue2");
+            var expected = new TestEntity1("id2", "initialValue2");
+
+            Writer.Add(entity1.Id, entity1);
+            Writer.Add(entity2.Id, entity2);
+
+            Writer.Update(entity1.Id, action);
+            var actual = Reader.GetByKey<TestEntity1>(entity2.Id);
+            Assert.AreEqual(expected, actual);
+        }
+
+        [Test]
+        public void updating_an_entity_leaves_entities_of_other_types_with_same_key_intact()
+        {
+            var action = new Action<TestEntity1>(e => e.Id = "newvalue");
+            var entity1 = new TestEntity1("id", "initialValue");
+            var entity2 = new TestEntity2("id", 111);
+            var expected = new TestEntity2("id", 111);
+
+            Writer.Add(entity1.Id, entity1);
+            Writer.Add(entity2.Id, entity2);
+
+            Writer.Update(entity1.Id, action);
+            var actual = Reader.GetByKey<TestEntity2>(entity2.Id);
+            Assert.AreEqual(expected, actual);
+        }
 
         #endregion
 

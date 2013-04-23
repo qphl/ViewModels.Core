@@ -70,6 +70,22 @@ namespace CR.ViewModels.Persistance.Memory
 
             if (key == "")
                 throw new ArgumentException("key must not be an empty string", "key");
+
+            if (update == null)
+                throw new ArgumentNullException("update");
+
+            var entities = GetEntities<TEntity>();
+
+            TEntity entity;
+
+            if (entities.TryGetValue(key, out entity))
+            {
+                update(entity);
+            }
+            else
+            {
+                throw new EntityNotFoundException();
+            }
         }
 
         public void UpdateWhere<TEntity>(Func<TEntity, bool> predicate, Action<TEntity> update) where TEntity : class
