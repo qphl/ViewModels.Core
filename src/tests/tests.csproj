@@ -7,8 +7,8 @@
     <ProjectGuid>{1E8BB448-FD81-4CB0-A67A-D2EC5D8C98AC}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>cr.viewmodels.tests</RootNamespace>
-    <AssemblyName>cr.viewmodels.tests</AssemblyName>
+    <RootNamespace>CR.ViewModels.Tests</RootNamespace>
+    <AssemblyName>CR.ViewModels.Tests</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>

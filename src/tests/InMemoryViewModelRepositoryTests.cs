@@ -1,12 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using CR.ViewModels.Persistance.Memory;
 using NUnit.Framework;
-using persistance.memory;
 
-namespace cr.viewmodels.tests
+namespace CR.ViewModels.Tests
 {
     [TestFixture]
     public class InMemoryViewModelRepositoryTests : ViewModelRepositoryTestFixture

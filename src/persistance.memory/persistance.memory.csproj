@@ -7,8 +7,8 @@
     <ProjectGuid>{D5DCB132-A8C5-4057-AA2E-3E12EFD63CD1}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>persistance.memory</RootNamespace>
-    <AssemblyName>persistance.memory</AssemblyName>
+    <RootNamespace>CR.ViewModels.Persistance.Memory</RootNamespace>
+    <AssemblyName>CR.ViewModels.Persistance.Memory</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
