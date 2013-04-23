@@ -40,6 +40,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Exceptions\DuplicateKeyException.cs" />
+    <Compile Include="Exceptions\EntityNotFoundException.cs" />
     <Compile Include="IViewModelReader.cs" />
     <Compile Include="IViewModelWriter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

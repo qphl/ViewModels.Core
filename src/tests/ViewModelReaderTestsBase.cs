@@ -37,6 +37,7 @@ namespace CR.ViewModels.Tests
         {
             var entity = new TestEntity1("woftam", "hello");
             Writer.Add(entity.Id, entity);
+
             Assert.AreEqual(entity, Reader.GetByKey<TestEntity1>(entity.Id));
         }
 
@@ -45,6 +46,7 @@ namespace CR.ViewModels.Tests
         {
             var entity = new TestEntity1("woftam", "hello");
             Writer.Add(entity.Id, entity);
+
             Assert.IsNull(Reader.GetByKey<TestEntity1>("notWoftam"));
         }
 
@@ -75,6 +77,7 @@ namespace CR.ViewModels.Tests
         {
             var entity = new TestEntity1("woftam", "hello");
             Writer.Add(entity.Id, entity);
+
             Assert.IsNull(Reader.GetByKey<TestEntity2>("woftam"));
         }
 
@@ -150,6 +153,127 @@ namespace CR.ViewModels.Tests
 
             Assert.IsEmpty(Reader.Query<TestEntity2>(e => e.Id == "woftam1"));
         }
+
+        #endregion
+
+        #region Deleting
+
+        [Test]
+        public void deleting_from_an_empty_repository_throws_an_entity_not_found_exception()
+        {
+            Assert.Throws<EntityNotFoundException>(() => Writer.Delete<TestEntity1>("someKey"));
+        }
+
+        [Test]
+        public void deleting_an_entity_that_is_not_in_the_repository_will_throw_an_entity_not_found_exception()
+        {
+            var entity1 = new TestEntity1("woftam2", "string2");
+            Writer.Add(entity1.Id, entity1);
+
+            Assert.Throws<EntityNotFoundException>(() => Writer.Delete<TestEntity1>("someKey"));
+        }
+
+        [Test]
+        public void deleted_entity_cannot_be_retreived_by_id()
+        {
+            var entity1 = new TestEntity1("woftam2", "string2");
+            Writer.Add(entity1.Id, entity1);
+            Writer.Delete<TestEntity1>(entity1.Id);
+
+            Assert.IsNull(Reader.GetByKey<TestEntity1>(entity1.Id));
+        }
+
+        [Test]
+        public void deleted_entity_cannot_be_queried()
+        {
+            var entity1 = new TestEntity1("woftam2", "string2");
+            Writer.Add(entity1.Id, entity1);
+            Writer.Delete<TestEntity1>(entity1.Id);
+
+            Assert.IsEmpty(Reader.Query<TestEntity1>(e => e.Field1 == "string2"));
+        }
+
+        [Test]
+        public void deleting_entity_leaves_other_entities_intact()
+        {
+            var entity1 = new TestEntity1("woftam1", "string1");
+            var entity2 = new TestEntity1("woftam2", "string2");
+            Writer.Add(entity1.Id, entity1);
+            Writer.Add(entity2.Id, entity2);
+            Writer.Delete<TestEntity1>(entity1.Id);
+
+            Assert.AreEqual(entity2, Reader.GetByKey<TestEntity1>(entity2.Id));
+        }
+
+        [Test]
+        public void deleting_an_entity_twice_throws_an_entity_not_found_exception()
+        {
+            var entity1 = new TestEntity1("woftam", "string2");
+            Writer.Add(entity1.Id, entity1);
+            Writer.Delete<TestEntity1>(entity1.Id);
+            Assert.Throws<EntityNotFoundException>(() => Writer.Delete<TestEntity1>(entity1.Id));
+        }
+
+        [Test]
+        public void entity_can_be_retreived_after_deleting_and_re_adding()
+        {
+            var entity1 = new TestEntity1("woftam", "string2");
+            Writer.Add(entity1.Id, entity1);
+            Writer.Delete<TestEntity1>(entity1.Id);
+            Writer.Add(entity1.Id, entity1);
+
+            Assert.AreEqual(entity1,Reader.GetByKey<TestEntity1>(entity1.Id));
+        }
+
+        [Test]
+        public void deleting_an_entity_with_wrong_type_throws_an_entity_not_found_exception()
+        {
+            var entity1 = new TestEntity1("woftam", "string2");
+            Writer.Add(entity1.Id, entity1);
+
+            Assert.Throws<EntityNotFoundException>(() => Writer.Delete<TestEntity2>(entity1.Id));
+        }
+
+        [Test]
+        public void deleting_entity_leaves_entities_of_other_types_with_same_key_intact()
+        {
+            var entity1 = new TestEntity1("woftam1", "string1");
+            var entity2 = new TestEntity2("woftam1", 123);
+            Writer.Add(entity1.Id, entity1);
+            Writer.Add(entity2.Id, entity2);
+            Writer.Delete<TestEntity1>(entity1.Id);
+
+            Assert.AreEqual(entity2, Reader.GetByKey<TestEntity2>(entity2.Id));
+        }
+
+        [Test]
+        public void deleting_with_a_null_key_throws_an_argument_null_exception()
+        {
+            Assert.Throws<ArgumentNullException>(() => Writer.Delete<TestEntity1>(null));
+        }
+
+        [Test]
+        public void deleting_with_an_empty_key_throws_an_argument_exception()
+        {
+            Assert.Throws<ArgumentException>(() => Writer.Delete<TestEntity1>(""));
+        }
+
+    #endregion
+
+        #region Updating
+
+        [Test]
+        public void update_with_null_key_throws_an_argument_null_exception()
+        {
+            Assert.Throws<ArgumentNullException>(() => Writer.Update<TestEntity1>(null, e => { }));
+        }
+
+        [Test]
+        public void update_with_empty_key_throws_an_argument_exception()
+        {
+            Assert.Throws<ArgumentException>(() => Writer.Update<TestEntity1>("", e => { }));
+        }
+
 
         #endregion
 

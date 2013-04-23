@@ -65,7 +65,11 @@ namespace CR.ViewModels.Persistance.Memory
 
         public void Update<TEntity>(string key, Action<TEntity> update) where TEntity : class
         {
-            throw new NotImplementedException();
+            if (key == null)
+                throw new ArgumentNullException("key");
+
+            if (key == "")
+                throw new ArgumentException("key must not be an empty string", "key");
         }
 
         public void UpdateWhere<TEntity>(Func<TEntity, bool> predicate, Action<TEntity> update) where TEntity : class
@@ -75,7 +79,18 @@ namespace CR.ViewModels.Persistance.Memory
 
         public void Delete<TEntity>(string key) where TEntity : class
         {
-            throw new NotImplementedException();
+            if(key == null)
+                throw new ArgumentNullException("key");
+
+            if (key == "")
+                throw new ArgumentException("key must not be an empty string", "key");
+
+            var entities = GetEntities<TEntity>();
+
+            if(!entities.ContainsKey(key))
+                throw new EntityNotFoundException();
+
+            entities.Remove(key);
         }
 
         public void DeleteWhere<TEntity>(Func<TEntity, bool> predicate) where TEntity : class
