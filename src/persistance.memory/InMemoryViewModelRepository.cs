@@ -90,7 +90,18 @@ namespace CR.ViewModels.Persistance.Memory
 
         public void UpdateWhere<TEntity>(Func<TEntity, bool> predicate, Action<TEntity> update) where TEntity : class
         {
-            throw new NotImplementedException();
+            if (predicate == null)
+                throw new ArgumentNullException("predicate");
+
+            if (update == null)
+                throw new ArgumentNullException("update");
+            
+
+            var entities = GetEntities<TEntity>();
+            var toUpdate = entities.Values.Where(predicate).ToList();
+
+            foreach (var ent in toUpdate)
+                update(ent);
         }
 
         public void Delete<TEntity>(string key) where TEntity : class

@@ -421,6 +421,96 @@ namespace CR.ViewModels.Tests
 
         #endregion
 
+        #region Updating with predicate
+
+        [Test]
+        public void update_where_on_empty_repository_does_nothing()
+        {
+            Assert.DoesNotThrow(() => Writer.UpdateWhere<TestEntity1>(e => true, e => { }));
+        }
+
+        [Test]
+        public void update_where_with_null_predicate_throws_an_argument_null_exception()
+        {
+            Assert.Throws<ArgumentNullException>(() => Writer.UpdateWhere<TestEntity1>(null, e => { }));
+        }
+
+        [Test]
+        public void update_where_with_null_action_throws_an_argument_null_exception()
+        {
+            Assert.Throws<ArgumentNullException>(() => Writer.UpdateWhere<TestEntity1>(e => true, null));
+        }
+
+        [Test]
+        public void update_where_updates_matching_entities()
+        {
+            var entity1 = new TestEntity1("id1", "match");
+            var entity2 = new TestEntity1("id2", "no match");
+            var entity3 = new TestEntity1("id3", "no match");
+            var entity4 = new TestEntity1("id4", "match");
+            Writer.Add(entity1.Id, entity1);
+            Writer.Add(entity2.Id, entity2);
+            Writer.Add(entity3.Id, entity3);
+            Writer.Add(entity4.Id, entity4);
+
+            Func<TestEntity1, bool> predicate = e => e.Field1.Equals("match");
+            Action<TestEntity1> update = e => e.Field1 = "new";
+            Writer.UpdateWhere(predicate, update);
+
+            var expected1 = new TestEntity1("id1", "new");
+            var expected4 = new TestEntity1("id4", "new");
+
+            var actual1 = Reader.GetByKey<TestEntity1>(entity1.Id);
+            var actual4 = Reader.GetByKey<TestEntity1>(entity4.Id);
+
+            Assert.AreEqual(expected1, actual1);
+            Assert.AreEqual(expected4, actual4);
+        }
+
+        [Test]
+        public void update_where_leaves_non_matching_entities_unchanged()
+        {
+            var entity1 = new TestEntity1("id1", "match");
+            var entity2 = new TestEntity1("id2", "no match");
+            var entity3 = new TestEntity1("id3", "no match");
+            var entity4 = new TestEntity1("id4", "match");
+            Writer.Add(entity1.Id, entity1);
+            Writer.Add(entity2.Id, entity2);
+            Writer.Add(entity3.Id, entity3);
+            Writer.Add(entity4.Id, entity4);
+
+            Func<TestEntity1, bool> predicate = e => e.Field1.Equals("match");
+            Action<TestEntity1> update = e => e.Field1 = "new";
+            Writer.UpdateWhere(predicate, update);
+
+            var expected2 = new TestEntity1("id2", "no match");
+            var expected3 = new TestEntity1("id3", "no match");
+
+            var actual2 = Reader.GetByKey<TestEntity1>(entity2.Id);
+            var actual3 = Reader.GetByKey<TestEntity1>(entity3.Id);
+
+            Assert.AreEqual(expected2, actual2);
+            Assert.AreEqual(expected3, actual3);
+        }
+
+        [Test]
+        public void update_where_leaves_matching_entities_of_other_types_intact()
+        {
+            var entity1 = new TestEntity1("id", "initialValue");
+            var entity2 = new TestEntity2("id", 111);
+            var expected = new TestEntity2("id", 111);
+
+            Writer.Add(entity1.Id, entity1);
+            Writer.Add(entity2.Id, entity2);
+
+            Writer.UpdateWhere<TestEntity1>(e => e.Id.Equals("id"), e => e.Id = "new");
+
+            var actual = Reader.GetByKey<TestEntity2>(entity2.Id);
+            Assert.AreEqual(expected, actual);
+        }
+
+        #endregion
+
     }
     // ReSharper restore InconsistentNaming
 }
