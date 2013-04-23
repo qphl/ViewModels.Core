@@ -346,6 +346,81 @@ namespace CR.ViewModels.Tests
 
         #endregion
 
+        #region Deleting with predicate
+
+        //null predicate
+
+        [Test]
+        public void delete_where_on_empty_repository_does_nothing()
+        {
+            Assert.DoesNotThrow(() => Writer.DeleteWhere<TestEntity1>(e => true));
+        }
+
+        [Test]
+        public void delete_where_deletes_matching_entities()
+        {
+            var entity1 = new TestEntity1("id1", "match");
+            var entity2 = new TestEntity1("id2", "no match");
+            var entity3 = new TestEntity1("id3", "no match");
+            var entity4 = new TestEntity1("id4", "match");
+            Writer.Add(entity1.Id, entity1);
+            Writer.Add(entity2.Id, entity2);
+            Writer.Add(entity3.Id, entity3);
+            Writer.Add(entity4.Id, entity4);
+
+            Func<TestEntity1, bool> predicate = e => e.Field1.Equals("match");
+            Writer.DeleteWhere(predicate);
+
+            Assert.IsEmpty(Reader.Query(predicate));
+        }
+
+        [Test]
+        public void delete_where_leaves_non_matching_entities_unchanged()
+        {
+            var entity1 = new TestEntity1("id1", "match");
+            var entity2 = new TestEntity1("id2", "no match");
+            var entity3 = new TestEntity1("id3", "no match");
+            var entity4 = new TestEntity1("id4", "match");
+            Writer.Add(entity1.Id, entity1);
+            Writer.Add(entity2.Id, entity2);
+            Writer.Add(entity3.Id, entity3);
+            Writer.Add(entity4.Id, entity4);
+
+            Func<TestEntity1, bool> predicate = e => e.Field1.Equals("match");
+            Writer.DeleteWhere(predicate);
+
+            var stuffLeft = Reader.Query<TestEntity1>(e => !e.Field1.Equals("match")).ToList();
+
+            Assert.Contains(entity2, stuffLeft);
+            Assert.Contains(entity3, stuffLeft);
+            Assert.AreEqual(2,stuffLeft.Count);
+
+        }
+
+        [Test]
+        public void delete_where_with_null_predicate_throws_an_argument_null_exception()
+        {
+            Assert.Throws<ArgumentNullException>(() => Writer.DeleteWhere<TestEntity1>(null));
+        }
+
+        [Test]
+        public void deleting_entities_leaves_matching_entities_of_other_types_intact()
+        {
+            var entity1 = new TestEntity1("id", "initialValue");
+            var entity2 = new TestEntity2("id", 111);
+            var expected = new TestEntity2("id", 111);
+
+            Writer.Add(entity1.Id, entity1);
+            Writer.Add(entity2.Id, entity2);
+
+            Writer.DeleteWhere<TestEntity1>(e => e.Id.Equals("id"));
+
+            var actual = Reader.GetByKey<TestEntity2>(entity2.Id);
+            Assert.AreEqual(expected, actual);
+        }
+
+        #endregion
+
     }
     // ReSharper restore InconsistentNaming
 }

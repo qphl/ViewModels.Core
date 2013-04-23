@@ -111,7 +111,14 @@ namespace CR.ViewModels.Persistance.Memory
 
         public void DeleteWhere<TEntity>(Func<TEntity, bool> predicate) where TEntity : class
         {
-            throw new NotImplementedException();
+            if (predicate == null)
+                throw new ArgumentNullException("predicate");
+
+            var entities = GetEntities<TEntity>();
+            var toDelete = entities.Where(e => predicate(e.Value)).ToList();
+
+            foreach (var ent in toDelete)
+                entities.Remove(ent.Key);
         }
 
         #endregion
