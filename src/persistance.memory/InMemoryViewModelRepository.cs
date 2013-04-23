@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using CR.ViewModels.Core;
 using CR.ViewModels.Core.Exceptions;
 
@@ -12,13 +13,13 @@ namespace CR.ViewModels.Persistance.Memory
     public class InMemoryViewModelRepository : IViewModelReader, IViewModelWriter
     {
         
-        private Dictionary<Type, Dictionary<string,object>> Entities { get; set; }
+        private Dictionary<Type, object> EntityCollections { get; set; }
 
         #region Constructor
 
         public InMemoryViewModelRepository()
         {
-            Entities = new Dictionary<Type, Dictionary<string, object>>();
+            EntityCollections = new Dictionary<Type, object>();
         }
 
         #endregion
@@ -33,21 +34,16 @@ namespace CR.ViewModels.Persistance.Memory
             if(key == "")
                 throw new ArgumentException("key must not be an empty string", "key");
 
-            if (!Entities.ContainsKey(typeof (TEntity)))
-                return null;
+            var entities = GetEntities<TEntity>();
             
-            object result;
-            
-            if (Entities[typeof(TEntity)].TryGetValue(key, out result))
-                return (TEntity)result;
-
-            return null;
+            TEntity result;
+            return entities.TryGetValue(key, out result) ? result : null;
         }
 
         public IEnumerable<TEntity> Query<TEntity>(Func<TEntity, bool> predicate) where TEntity : class
         {
-            throw new NotImplementedException();
-            //return new List<TEntity>();
+            var entities = GetEntities<TEntity>();
+            return entities.Values.Where(predicate);
         }
         
         #endregion
@@ -56,15 +52,15 @@ namespace CR.ViewModels.Persistance.Memory
 
         public void Add<TEntity>(string key, TEntity entity) where TEntity : class
         {
-            if (!Entities.ContainsKey(typeof(TEntity)))
-                Entities.Add(typeof(TEntity), new Dictionary<string, object>());
+            if (!EntityCollections.ContainsKey(typeof(TEntity)))
+                EntityCollections.Add(typeof(TEntity), new Dictionary<string, TEntity>());
 
-            var typeDict = Entities[typeof (TEntity)];
+            var entities = GetEntities<TEntity>();
 
-            if(typeDict.ContainsKey(key))
+            if(entities.ContainsKey(key))
                 throw new DuplicateKeyException("An entity with this key has alreaady been added");
 
-            typeDict.Add(key, entity);
+            entities.Add(key, entity);
         }
 
         public void Update<TEntity>(string key, Action<TEntity> update) where TEntity : class
@@ -88,5 +84,16 @@ namespace CR.ViewModels.Persistance.Memory
         }
 
         #endregion
+
+        private Dictionary<string, TEntity> GetEntities<TEntity>()
+        {
+            object typeDict;
+            if (EntityCollections.TryGetValue(typeof (TEntity), out typeDict))
+            {
+                return (Dictionary<string, TEntity>) typeDict;
+            }
+            
+            return new Dictionary<string, TEntity>();
+        }
     }
 }

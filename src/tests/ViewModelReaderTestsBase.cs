@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using CR.ViewModels.Core;
 using CR.ViewModels.Core.Exceptions;
 using NUnit.Framework;
@@ -11,7 +12,9 @@ namespace CR.ViewModels.Tests
         protected IViewModelReader Reader { get; set; }
         protected IViewModelWriter Writer { get; set; }
 
-        [Test] 
+        #region Adding & getting by id
+
+        [Test]
         public void get_by_null_key_throws_argument_null_exception()
         {
             Assert.Throws<ArgumentNullException>(() => Reader.GetByKey<TestEntity1>(null));
@@ -41,7 +44,7 @@ namespace CR.ViewModels.Tests
         public void get_key_not_in_repository_returns_null()
         {
             var entity = new TestEntity1("woftam", "hello");
-            Writer.Add(entity.Id,entity);
+            Writer.Add(entity.Id, entity);
             Assert.IsNull(Reader.GetByKey<TestEntity1>("notWoftam"));
         }
 
@@ -63,7 +66,7 @@ namespace CR.ViewModels.Tests
             var entity1 = new TestEntity1("woftam", "hello");
             var entity2 = new TestEntity1("woftam", "hello2");
             Writer.Add(entity1.Id, entity1);
-            
+
             Assert.Throws<DuplicateKeyException>(() => Writer.Add(entity2.Id, entity2));
         }
 
@@ -98,16 +101,58 @@ namespace CR.ViewModels.Tests
             Assert.AreEqual(entity2, Reader.GetByKey<TestEntity2>(entity2.Id));
         }
 
+        #endregion
 
+        #region Querying
 
-        /*
         [Test]
         public void query_on_empty_repository_returns_no_results()
         {
             Assert.IsEmpty(Reader.Query<TestEntity1>((e) => true));
         }
-        */
-         
+
+        [Test]
+        public void query_with_no_matches_returns_no_results()
+        {
+            var entity1 = new TestEntity1("woftam1", "string1");
+            var entity2 = new TestEntity1("woftam2", "string2");
+            Writer.Add(entity1.Id, entity1);
+            Writer.Add(entity2.Id, entity2);
+
+            Assert.IsEmpty(Reader.Query<TestEntity1>(e => e.Id == "Not There"));
+        }
+
+        [Test]
+        public void query_returns_correct_results()
+        {
+            var entity1 = new TestEntity1("woftam1", "no match");
+            var entity2 = new TestEntity1("woftam2", "match this");
+            var entity3 = new TestEntity1("woftam3", "no match");
+            var entity4 = new TestEntity1("woftam4", "match this");
+            Writer.Add(entity1.Id, entity1);
+            Writer.Add(entity2.Id, entity2);
+            Writer.Add(entity3.Id, entity3);
+            Writer.Add(entity4.Id, entity4);
+
+            var results = Reader.Query<TestEntity1>(e => e.Field1 == "match this").ToList();
+            Assert.Contains(entity2, results);
+            Assert.Contains(entity4, results);
+            Assert.AreEqual(2, results.Count);
+        }
+
+        [Test]
+        public void query_with_matches_in_different_type_returns_no_results()
+        {
+            var entity1 = new TestEntity1("woftam1", "string1");
+            var entity2 = new TestEntity1("woftam2", "string2");
+            Writer.Add(entity1.Id, entity1);
+            Writer.Add(entity2.Id, entity2);
+
+            Assert.IsEmpty(Reader.Query<TestEntity2>(e => e.Id == "woftam1"));
+        }
+
+        #endregion
+
     }
     // ReSharper restore InconsistentNaming
 }
