@@ -17,8 +17,19 @@ namespace CR.ViewModels.Persitance.ApplicationState
 
         public TEntity GetByKey<TEntity>(string key) where TEntity : class
         {
+            if (key == null)
+                throw new ArgumentNullException("key");
+
+            if (key == "")
+                throw new ArgumentException("key must not be an empty string", "key");
+
             var entities = GetEntities<TEntity>();
-            return entities == null ? default(TEntity) : entities[key];
+
+            if (entities == null)
+                return null;
+
+            TEntity result;
+            return entities.TryGetValue(key, out result) ? result : null;
         }
 
         public IEnumerable<TEntity> Query<TEntity>(Func<TEntity, bool> predicate) where TEntity : class
