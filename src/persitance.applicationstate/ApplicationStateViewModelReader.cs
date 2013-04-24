@@ -30,14 +30,6 @@ namespace CR.ViewModels.Persitance.ApplicationState
             return entities.TryGetValue(key, out result) ? result : null;
         }
 
-        /*
-        public IEnumerable<TEntity> Query<TEntity>(Expression<Func<TEntity, bool>> predicate) where TEntity : class
-        {
-            var entities = GetEntities<TEntity>();
-            return entities == null ? new List<TEntity>() : entities.Values.Where(predicate.Compile());
-        }
-        */
-
         public IQueryable<TEntity> Query<TEntity>() where TEntity : class
         {
             var entities = GetEntities<TEntity>();
