@@ -17,7 +17,7 @@ namespace CR.ViewModels.Tests
         public void SetUp()
         {
             //_docStore = new EmbeddableDocumentStore() {DataDirectory = "data" + ++DataDirectories};
-            _docStore = new EmbeddableDocumentStore() {RunInMemory = true};
+            _docStore = new EmbeddableDocumentStore() {RunInMemory = true, Conventions = new DocumentConvention() {DefaultQueryingConsistency = ConsistencyOptions.QueryYourWrites}};
             _docStore.Initialize();
             Reader = new RavenDBViewModelReader(_docStore);
             Writer = new RavenDBViewModelWriter(_docStore);

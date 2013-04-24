@@ -563,6 +563,67 @@ namespace CR.ViewModels.Tests
             }
         }
 
+        [Test]
+        public void skip_and_take_paging_on_query_returns_all_expected_entities()
+        {
+            var expectedList = new List<TestEntity1>();
+
+            for (int i = 0; i < LARGE_LIST_SIZE; i = i + 2)
+            {
+                var matchEntity = new TestEntity1("id" + i, "match");
+                var expectedEntity = new TestEntity1("id" + i, "match");
+                var nomatchEntity = new TestEntity1("id" + (i + 1), "no match");
+                Writer.Add(matchEntity.Identifier, matchEntity);
+                Writer.Add(nomatchEntity.Identifier, nomatchEntity);
+                expectedList.Add(expectedEntity);
+            }
+
+            List<TestEntity1> resultChunk;
+            var allResults = new List<TestEntity1>();
+            int resultsToSkip = 0;
+
+            do
+            {
+                resultChunk =
+                    Reader.Query<TestEntity1>()
+                           .Where(e => e.Field1 == "match")
+                           .Skip(resultsToSkip)
+                           .Take(10)
+                           .ToList();
+                resultsToSkip += resultChunk.Count;
+                allResults.AddRange(resultChunk);
+            } while (resultChunk.Count > 0);
+
+            foreach(var entity in expectedList)
+                Assert.Contains(entity,allResults);
+
+            Assert.AreEqual(expectedList.Count, allResults.Count);
+        }
+
+        [Test]
+        public void orderby_thenby_returns_list_in_correct_order()
+        {
+            var expectedList = new List<TestEntity2>();
+
+            expectedList.Add(new TestEntity2("a",1));
+            expectedList.Add(new TestEntity2("a",2));
+            expectedList.Add(new TestEntity2("b",1));
+            expectedList.Add(new TestEntity2("b",2));
+            expectedList.Add(new TestEntity2("c",1));
+            expectedList.Add(new TestEntity2("c",2));
+
+            Writer.Add("id2", new TestEntity2("a",2));
+            Writer.Add("id3", new TestEntity2("b",1));
+            Writer.Add("id4", new TestEntity2("b",2));
+            Writer.Add("id5", new TestEntity2("c",1));
+            Writer.Add("id6", new TestEntity2("c",2));
+            Writer.Add("id1", new TestEntity2("a",1));
+
+            var results = Reader.Query<TestEntity2>().OrderBy(e => e.Identifier).ThenBy(e => e.Field1).ToList();
+
+            Assert.IsTrue(results.SequenceEqual(expectedList));
+        }
+
         #endregion
 
     }
