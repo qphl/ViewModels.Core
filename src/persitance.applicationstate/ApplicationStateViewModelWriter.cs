@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 using System.Web;
 using CR.ViewModels.Core;
@@ -49,7 +50,7 @@ namespace CR.ViewModels.Persitance.ApplicationState
                 throw new EntityNotFoundException();
         }
 
-        public void UpdateWhere<TEntity>(Func<TEntity, bool> predicate, Action<TEntity> update) where TEntity : class
+        public void UpdateWhere<TEntity>(Expression<Func<TEntity, bool>> predicate, Action<TEntity> update) where TEntity : class
         {
             if (predicate == null)
                 throw new ArgumentNullException("predicate");
@@ -58,7 +59,7 @@ namespace CR.ViewModels.Persitance.ApplicationState
                 throw new ArgumentNullException("update");
 
             var entities = GetEntities<TEntity>();
-            var targets = entities.Values.Where(predicate).ToList();
+            var targets = entities.Values.Where(predicate.Compile()).ToList();
             Parallel.ForEach(targets, update);
         }
 
@@ -78,14 +79,14 @@ namespace CR.ViewModels.Persitance.ApplicationState
             entities.Remove(key);
         }
 
-        public void DeleteWhere<TEntity>(Func<TEntity, bool> predicate) where TEntity : class
+        public void DeleteWhere<TEntity>(Expression<Func<TEntity, bool>> predicate) where TEntity : class
         {
             if (predicate == null)
                 throw new ArgumentNullException("predicate");
 
             var entities = GetEntities<TEntity>();
 
-            var toDelete = entities.Where(e => predicate(e.Value)).ToList();
+            var toDelete = entities.Where(e => predicate.Compile()(e.Value)).ToList();
 
             foreach (var entity in toDelete)
                 entities.Remove(entity.Key);

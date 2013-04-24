@@ -56,6 +56,7 @@
   <ItemGroup>
     <Compile Include="RavenDbViewModelReader.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RavenDBViewModelWriter.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\core\core.csproj">

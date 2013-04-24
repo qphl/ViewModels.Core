@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using CR.ViewModels.Core;
 using CR.ViewModels.Core.Exceptions;
 
@@ -40,10 +41,10 @@ namespace CR.ViewModels.Persistance.Memory
             return entities.TryGetValue(key, out result) ? result : null;
         }
 
-        public IEnumerable<TEntity> Query<TEntity>(Func<TEntity, bool> predicate) where TEntity : class
+        public IEnumerable<TEntity> Query<TEntity>(Expression<Func<TEntity, bool>> predicate) where TEntity : class
         {
             var entities = GetEntities<TEntity>();
-            return entities.Values.Where(predicate);
+            return entities.Values.Where(predicate.Compile());
         }
         
         #endregion
@@ -88,7 +89,7 @@ namespace CR.ViewModels.Persistance.Memory
             }
         }
 
-        public void UpdateWhere<TEntity>(Func<TEntity, bool> predicate, Action<TEntity> update) where TEntity : class
+        public void UpdateWhere<TEntity>(Expression<Func<TEntity, bool>> predicate, Action<TEntity> update) where TEntity : class
         {
             if (predicate == null)
                 throw new ArgumentNullException("predicate");
@@ -98,7 +99,7 @@ namespace CR.ViewModels.Persistance.Memory
             
 
             var entities = GetEntities<TEntity>();
-            var toUpdate = entities.Values.Where(predicate).ToList();
+            var toUpdate = entities.Values.Where(predicate.Compile()).ToList();
 
             foreach (var ent in toUpdate)
                 update(ent);
@@ -120,13 +121,13 @@ namespace CR.ViewModels.Persistance.Memory
             entities.Remove(key);
         }
 
-        public void DeleteWhere<TEntity>(Func<TEntity, bool> predicate) where TEntity : class
+        public void DeleteWhere<TEntity>(Expression<Func<TEntity, bool>> predicate) where TEntity : class
         {
             if (predicate == null)
                 throw new ArgumentNullException("predicate");
 
             var entities = GetEntities<TEntity>();
-            var toDelete = entities.Where(e => predicate(e.Value)).ToList();
+            var toDelete = entities.Where(e => predicate.Compile()(e.Value)).ToList();
 
             foreach (var ent in toDelete)
                 entities.Remove(ent.Key);

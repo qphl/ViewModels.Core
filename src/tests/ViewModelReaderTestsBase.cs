@@ -1,5 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
+using System.Linq.Expressions;
 using CR.ViewModels.Core;
 using CR.ViewModels.Core.Exceptions;
 using NUnit.Framework;
@@ -36,16 +39,16 @@ namespace CR.ViewModels.Tests
         public void added_entity_can_be_retrieved()
         {
             var entity = new TestEntity1("woftam", "hello");
-            Writer.Add(entity.Id, entity);
+            Writer.Add(entity.Identifier, entity);
 
-            Assert.AreEqual(entity, Reader.GetByKey<TestEntity1>(entity.Id));
+            Assert.AreEqual(entity, Reader.GetByKey<TestEntity1>(entity.Identifier));
         }
 
         [Test]
         public void get_key_not_in_repository_returns_null()
         {
             var entity = new TestEntity1("woftam", "hello");
-            Writer.Add(entity.Id, entity);
+            Writer.Add(entity.Identifier, entity);
 
             Assert.IsNull(Reader.GetByKey<TestEntity1>("notWoftam"));
         }
@@ -55,11 +58,11 @@ namespace CR.ViewModels.Tests
         {
             var entity1 = new TestEntity1("woftam", "hello");
             var entity2 = new TestEntity1("woftam2", "hello2");
-            Writer.Add(entity1.Id, entity1);
-            Writer.Add(entity2.Id, entity2);
+            Writer.Add(entity1.Identifier, entity1);
+            Writer.Add(entity2.Identifier, entity2);
 
-            Assert.AreEqual(entity1, Reader.GetByKey<TestEntity1>(entity1.Id));
-            Assert.AreEqual(entity2, Reader.GetByKey<TestEntity1>(entity2.Id));
+            Assert.AreEqual(entity1, Reader.GetByKey<TestEntity1>(entity1.Identifier));
+            Assert.AreEqual(entity2, Reader.GetByKey<TestEntity1>(entity2.Identifier));
         }
 
         [Test]
@@ -67,16 +70,16 @@ namespace CR.ViewModels.Tests
         {
             var entity1 = new TestEntity1("woftam", "hello");
             var entity2 = new TestEntity1("woftam", "hello2");
-            Writer.Add(entity1.Id, entity1);
+            Writer.Add(entity1.Identifier, entity1);
 
-            Assert.Throws<DuplicateKeyException>(() => Writer.Add(entity2.Id, entity2));
+            Assert.Throws<DuplicateKeyException>(() => Writer.Add(entity2.Identifier, entity2));
         }
 
         [Test]
         public void get_from_type_not_in_repository_returns_null()
         {
             var entity = new TestEntity1("woftam", "hello");
-            Writer.Add(entity.Id, entity);
+            Writer.Add(entity.Identifier, entity);
 
             Assert.IsNull(Reader.GetByKey<TestEntity2>("woftam"));
         }
@@ -86,8 +89,8 @@ namespace CR.ViewModels.Tests
         {
             var entity1 = new TestEntity1("woftam", "hello");
             var entity2 = new TestEntity2("woftam2", 123);
-            Writer.Add(entity1.Id, entity1);
-            Writer.Add(entity2.Id, entity2);
+            Writer.Add(entity1.Identifier, entity1);
+            Writer.Add(entity2.Identifier, entity2);
 
             Assert.IsNull(Reader.GetByKey<TestEntity2>("woftam"));
         }
@@ -97,11 +100,11 @@ namespace CR.ViewModels.Tests
         {
             var entity1 = new TestEntity1("woftam", "hello");
             var entity2 = new TestEntity2("woftam", 123);
-            Writer.Add(entity1.Id, entity1);
-            Writer.Add(entity2.Id, entity2);
+            Writer.Add(entity1.Identifier, entity1);
+            Writer.Add(entity2.Identifier, entity2);
 
-            Assert.AreEqual(entity1, Reader.GetByKey<TestEntity1>(entity1.Id));
-            Assert.AreEqual(entity2, Reader.GetByKey<TestEntity2>(entity2.Id));
+            Assert.AreEqual(entity1, Reader.GetByKey<TestEntity1>(entity1.Identifier));
+            Assert.AreEqual(entity2, Reader.GetByKey<TestEntity2>(entity2.Identifier));
         }
 
         #endregion
@@ -119,10 +122,10 @@ namespace CR.ViewModels.Tests
         {
             var entity1 = new TestEntity1("woftam1", "string1");
             var entity2 = new TestEntity1("woftam2", "string2");
-            Writer.Add(entity1.Id, entity1);
-            Writer.Add(entity2.Id, entity2);
+            Writer.Add(entity1.Identifier, entity1);
+            Writer.Add(entity2.Identifier, entity2);
 
-            Assert.IsEmpty(Reader.Query<TestEntity1>(e => e.Id == "Not There"));
+            Assert.IsEmpty(Reader.Query<TestEntity1>(e => e.Identifier == "Not There"));
         }
 
         [Test]
@@ -132,10 +135,10 @@ namespace CR.ViewModels.Tests
             var entity2 = new TestEntity1("woftam2", "match this");
             var entity3 = new TestEntity1("woftam3", "no match");
             var entity4 = new TestEntity1("woftam4", "match this");
-            Writer.Add(entity1.Id, entity1);
-            Writer.Add(entity2.Id, entity2);
-            Writer.Add(entity3.Id, entity3);
-            Writer.Add(entity4.Id, entity4);
+            Writer.Add(entity1.Identifier, entity1);
+            Writer.Add(entity2.Identifier, entity2);
+            Writer.Add(entity3.Identifier, entity3);
+            Writer.Add(entity4.Identifier, entity4);
 
             var results = Reader.Query<TestEntity1>(e => e.Field1 == "match this").ToList();
             Assert.Contains(entity2, results);
@@ -148,10 +151,10 @@ namespace CR.ViewModels.Tests
         {
             var entity1 = new TestEntity1("woftam1", "string1");
             var entity2 = new TestEntity1("woftam2", "string2");
-            Writer.Add(entity1.Id, entity1);
-            Writer.Add(entity2.Id, entity2);
+            Writer.Add(entity1.Identifier, entity1);
+            Writer.Add(entity2.Identifier, entity2);
 
-            Assert.IsEmpty(Reader.Query<TestEntity2>(e => e.Id == "woftam1"));
+            Assert.IsEmpty(Reader.Query<TestEntity2>(e => e.Identifier == "woftam1"));
         }
 
         #endregion
@@ -168,7 +171,7 @@ namespace CR.ViewModels.Tests
         public void deleting_an_entity_that_is_not_in_the_repository_will_throw_an_entity_not_found_exception()
         {
             var entity1 = new TestEntity1("woftam2", "string2");
-            Writer.Add(entity1.Id, entity1);
+            Writer.Add(entity1.Identifier, entity1);
 
             Assert.Throws<EntityNotFoundException>(() => Writer.Delete<TestEntity1>("someKey"));
         }
@@ -177,18 +180,18 @@ namespace CR.ViewModels.Tests
         public void deleted_entity_cannot_be_retreived_by_id()
         {
             var entity1 = new TestEntity1("woftam2", "string2");
-            Writer.Add(entity1.Id, entity1);
-            Writer.Delete<TestEntity1>(entity1.Id);
+            Writer.Add(entity1.Identifier, entity1);
+            Writer.Delete<TestEntity1>(entity1.Identifier);
 
-            Assert.IsNull(Reader.GetByKey<TestEntity1>(entity1.Id));
+            Assert.IsNull(Reader.GetByKey<TestEntity1>(entity1.Identifier));
         }
 
         [Test]
         public void deleted_entity_cannot_be_queried()
         {
             var entity1 = new TestEntity1("woftam2", "string2");
-            Writer.Add(entity1.Id, entity1);
-            Writer.Delete<TestEntity1>(entity1.Id);
+            Writer.Add(entity1.Identifier, entity1);
+            Writer.Delete<TestEntity1>(entity1.Identifier);
 
             Assert.IsEmpty(Reader.Query<TestEntity1>(e => e.Field1 == "string2"));
         }
@@ -198,40 +201,40 @@ namespace CR.ViewModels.Tests
         {
             var entity1 = new TestEntity1("woftam1", "string1");
             var entity2 = new TestEntity1("woftam2", "string2");
-            Writer.Add(entity1.Id, entity1);
-            Writer.Add(entity2.Id, entity2);
-            Writer.Delete<TestEntity1>(entity1.Id);
+            Writer.Add(entity1.Identifier, entity1);
+            Writer.Add(entity2.Identifier, entity2);
+            Writer.Delete<TestEntity1>(entity1.Identifier);
 
-            Assert.AreEqual(entity2, Reader.GetByKey<TestEntity1>(entity2.Id));
+            Assert.AreEqual(entity2, Reader.GetByKey<TestEntity1>(entity2.Identifier));
         }
 
         [Test]
         public void deleting_an_entity_twice_throws_an_entity_not_found_exception()
         {
             var entity1 = new TestEntity1("woftam", "string2");
-            Writer.Add(entity1.Id, entity1);
-            Writer.Delete<TestEntity1>(entity1.Id);
-            Assert.Throws<EntityNotFoundException>(() => Writer.Delete<TestEntity1>(entity1.Id));
+            Writer.Add(entity1.Identifier, entity1);
+            Writer.Delete<TestEntity1>(entity1.Identifier);
+            Assert.Throws<EntityNotFoundException>(() => Writer.Delete<TestEntity1>(entity1.Identifier));
         }
 
         [Test]
         public void entity_can_be_retreived_after_deleting_and_re_adding()
         {
             var entity1 = new TestEntity1("woftam", "string2");
-            Writer.Add(entity1.Id, entity1);
-            Writer.Delete<TestEntity1>(entity1.Id);
-            Writer.Add(entity1.Id, entity1);
+            Writer.Add(entity1.Identifier, entity1);
+            Writer.Delete<TestEntity1>(entity1.Identifier);
+            Writer.Add(entity1.Identifier, entity1);
 
-            Assert.AreEqual(entity1, Reader.GetByKey<TestEntity1>(entity1.Id));
+            Assert.AreEqual(entity1, Reader.GetByKey<TestEntity1>(entity1.Identifier));
         }
 
         [Test]
         public void deleting_an_entity_with_wrong_type_throws_an_entity_not_found_exception()
         {
             var entity1 = new TestEntity1("woftam", "string2");
-            Writer.Add(entity1.Id, entity1);
+            Writer.Add(entity1.Identifier, entity1);
 
-            Assert.Throws<EntityNotFoundException>(() => Writer.Delete<TestEntity2>(entity1.Id));
+            Assert.Throws<EntityNotFoundException>(() => Writer.Delete<TestEntity2>(entity1.Identifier));
         }
 
         [Test]
@@ -239,11 +242,11 @@ namespace CR.ViewModels.Tests
         {
             var entity1 = new TestEntity1("woftam1", "string1");
             var entity2 = new TestEntity2("woftam1", 123);
-            Writer.Add(entity1.Id, entity1);
-            Writer.Add(entity2.Id, entity2);
-            Writer.Delete<TestEntity1>(entity1.Id);
+            Writer.Add(entity1.Identifier, entity1);
+            Writer.Add(entity2.Identifier, entity2);
+            Writer.Delete<TestEntity1>(entity1.Identifier);
 
-            Assert.AreEqual(entity2, Reader.GetByKey<TestEntity2>(entity2.Id));
+            Assert.AreEqual(entity2, Reader.GetByKey<TestEntity2>(entity2.Identifier));
         }
 
         [Test]
@@ -290,7 +293,7 @@ namespace CR.ViewModels.Tests
         public void updating_an_entity_that_is_not_in_the_repository_will_throw_an_entity_not_found_exception()
         {
             var entity1 = new TestEntity1("woftam2", "string2");
-            Writer.Add(entity1.Id, entity1);
+            Writer.Add(entity1.Identifier, entity1);
 
             Assert.Throws<EntityNotFoundException>(() => Writer.Update<TestEntity1>("someKey", e => { }));
         }
@@ -304,9 +307,9 @@ namespace CR.ViewModels.Tests
             var expected = new TestEntity1(id, "initialValue");
             action(expected);
             
-            Writer.Add(entity1.Id, entity1);
-            Writer.Update(entity1.Id, action);
-            var actual = Reader.GetByKey<TestEntity1>(entity1.Id);
+            Writer.Add(entity1.Identifier, entity1);
+            Writer.Update(entity1.Identifier, action);
+            var actual = Reader.GetByKey<TestEntity1>(entity1.Identifier);
 
             Assert.AreEqual(expected, actual);
         }
@@ -320,27 +323,27 @@ namespace CR.ViewModels.Tests
             var entity2 = new TestEntity1("id2", "initialValue2");
             var expected = new TestEntity1("id2", "initialValue2");
 
-            Writer.Add(entity1.Id, entity1);
-            Writer.Add(entity2.Id, entity2);
+            Writer.Add(entity1.Identifier, entity1);
+            Writer.Add(entity2.Identifier, entity2);
 
-            Writer.Update(entity1.Id, action);
-            var actual = Reader.GetByKey<TestEntity1>(entity2.Id);
+            Writer.Update(entity1.Identifier, action);
+            var actual = Reader.GetByKey<TestEntity1>(entity2.Identifier);
             Assert.AreEqual(expected, actual);
         }
 
         [Test]
         public void updating_an_entity_leaves_entities_of_other_types_with_same_key_intact()
         {
-            var action = new Action<TestEntity1>(e => e.Id = "newvalue");
+            var action = new Action<TestEntity1>(e => e.Identifier = "newvalue");
             var entity1 = new TestEntity1("id", "initialValue");
             var entity2 = new TestEntity2("id", 111);
             var expected = new TestEntity2("id", 111);
 
-            Writer.Add(entity1.Id, entity1);
-            Writer.Add(entity2.Id, entity2);
+            Writer.Add(entity1.Identifier, entity1);
+            Writer.Add(entity2.Identifier, entity2);
 
-            Writer.Update(entity1.Id, action);
-            var actual = Reader.GetByKey<TestEntity2>(entity2.Id);
+            Writer.Update(entity1.Identifier, action);
+            var actual = Reader.GetByKey<TestEntity2>(entity2.Identifier);
             Assert.AreEqual(expected, actual);
         }
 
@@ -363,12 +366,12 @@ namespace CR.ViewModels.Tests
             var entity2 = new TestEntity1("id2", "no match");
             var entity3 = new TestEntity1("id3", "no match");
             var entity4 = new TestEntity1("id4", "match");
-            Writer.Add(entity1.Id, entity1);
-            Writer.Add(entity2.Id, entity2);
-            Writer.Add(entity3.Id, entity3);
-            Writer.Add(entity4.Id, entity4);
+            Writer.Add(entity1.Identifier, entity1);
+            Writer.Add(entity2.Identifier, entity2);
+            Writer.Add(entity3.Identifier, entity3);
+            Writer.Add(entity4.Identifier, entity4);
 
-            Func<TestEntity1, bool> predicate = e => e.Field1.Equals("match");
+            Expression<Func<TestEntity1, bool>> predicate = e => e.Field1.Equals("match");
             Writer.DeleteWhere(predicate);
 
             Assert.IsEmpty(Reader.Query(predicate));
@@ -381,12 +384,12 @@ namespace CR.ViewModels.Tests
             var entity2 = new TestEntity1("id2", "no match");
             var entity3 = new TestEntity1("id3", "no match");
             var entity4 = new TestEntity1("id4", "match");
-            Writer.Add(entity1.Id, entity1);
-            Writer.Add(entity2.Id, entity2);
-            Writer.Add(entity3.Id, entity3);
-            Writer.Add(entity4.Id, entity4);
+            Writer.Add(entity1.Identifier, entity1);
+            Writer.Add(entity2.Identifier, entity2);
+            Writer.Add(entity3.Identifier, entity3);
+            Writer.Add(entity4.Identifier, entity4);
 
-            Func<TestEntity1, bool> predicate = e => e.Field1.Equals("match");
+            Expression<Func<TestEntity1, bool>> predicate = e => e.Field1.Equals("match");
             Writer.DeleteWhere(predicate);
 
             var stuffLeft = Reader.Query<TestEntity1>(e => !e.Field1.Equals("match")).ToList();
@@ -410,12 +413,12 @@ namespace CR.ViewModels.Tests
             var entity2 = new TestEntity2("id", 111);
             var expected = new TestEntity2("id", 111);
 
-            Writer.Add(entity1.Id, entity1);
-            Writer.Add(entity2.Id, entity2);
+            Writer.Add(entity1.Identifier, entity1);
+            Writer.Add(entity2.Identifier, entity2);
 
-            Writer.DeleteWhere<TestEntity1>(e => e.Id.Equals("id"));
+            Writer.DeleteWhere<TestEntity1>(e => e.Identifier.Equals("id"));
 
-            var actual = Reader.GetByKey<TestEntity2>(entity2.Id);
+            var actual = Reader.GetByKey<TestEntity2>(entity2.Identifier);
             Assert.AreEqual(expected, actual);
         }
 
@@ -448,20 +451,20 @@ namespace CR.ViewModels.Tests
             var entity2 = new TestEntity1("id2", "no match");
             var entity3 = new TestEntity1("id3", "no match");
             var entity4 = new TestEntity1("id4", "match");
-            Writer.Add(entity1.Id, entity1);
-            Writer.Add(entity2.Id, entity2);
-            Writer.Add(entity3.Id, entity3);
-            Writer.Add(entity4.Id, entity4);
+            Writer.Add(entity1.Identifier, entity1);
+            Writer.Add(entity2.Identifier, entity2);
+            Writer.Add(entity3.Identifier, entity3);
+            Writer.Add(entity4.Identifier, entity4);
 
-            Func<TestEntity1, bool> predicate = e => e.Field1.Equals("match");
+            Expression<Func<TestEntity1, bool>> predicate = e => e.Field1.Equals("match");
             Action<TestEntity1> update = e => e.Field1 = "new";
             Writer.UpdateWhere(predicate, update);
 
             var expected1 = new TestEntity1("id1", "new");
             var expected4 = new TestEntity1("id4", "new");
 
-            var actual1 = Reader.GetByKey<TestEntity1>(entity1.Id);
-            var actual4 = Reader.GetByKey<TestEntity1>(entity4.Id);
+            var actual1 = Reader.GetByKey<TestEntity1>(entity1.Identifier);
+            var actual4 = Reader.GetByKey<TestEntity1>(entity4.Identifier);
 
             Assert.AreEqual(expected1, actual1);
             Assert.AreEqual(expected4, actual4);
@@ -474,20 +477,20 @@ namespace CR.ViewModels.Tests
             var entity2 = new TestEntity1("id2", "no match");
             var entity3 = new TestEntity1("id3", "no match");
             var entity4 = new TestEntity1("id4", "match");
-            Writer.Add(entity1.Id, entity1);
-            Writer.Add(entity2.Id, entity2);
-            Writer.Add(entity3.Id, entity3);
-            Writer.Add(entity4.Id, entity4);
+            Writer.Add(entity1.Identifier, entity1);
+            Writer.Add(entity2.Identifier, entity2);
+            Writer.Add(entity3.Identifier, entity3);
+            Writer.Add(entity4.Identifier, entity4);
 
-            Func<TestEntity1, bool> predicate = e => e.Field1.Equals("match");
+            Expression<Func<TestEntity1, bool>> predicate = e => e.Field1.Equals("match");
             Action<TestEntity1> update = e => e.Field1 = "new";
             Writer.UpdateWhere(predicate, update);
 
             var expected2 = new TestEntity1("id2", "no match");
             var expected3 = new TestEntity1("id3", "no match");
 
-            var actual2 = Reader.GetByKey<TestEntity1>(entity2.Id);
-            var actual3 = Reader.GetByKey<TestEntity1>(entity3.Id);
+            var actual2 = Reader.GetByKey<TestEntity1>(entity2.Identifier);
+            var actual3 = Reader.GetByKey<TestEntity1>(entity3.Identifier);
 
             Assert.AreEqual(expected2, actual2);
             Assert.AreEqual(expected3, actual3);
@@ -500,13 +503,92 @@ namespace CR.ViewModels.Tests
             var entity2 = new TestEntity2("id", 111);
             var expected = new TestEntity2("id", 111);
 
-            Writer.Add(entity1.Id, entity1);
-            Writer.Add(entity2.Id, entity2);
+            Writer.Add(entity1.Identifier, entity1);
+            Writer.Add(entity2.Identifier, entity2);
 
-            Writer.UpdateWhere<TestEntity1>(e => e.Id.Equals("id"), e => e.Id = "new");
+            Writer.UpdateWhere<TestEntity1>(e => e.Identifier.Equals("id"), e => e.Identifier = "new");
 
-            var actual = Reader.GetByKey<TestEntity2>(entity2.Id);
+            var actual = Reader.GetByKey<TestEntity2>(entity2.Identifier);
             Assert.AreEqual(expected, actual);
+        }
+
+        private const int LARGE_LIST_SIZE = 5000;
+
+        [Test]
+        public void update_where_updates_matching_entities_on_large_lists()
+        {
+            var expectedList = new List<TestEntity1>();
+
+            for (int i = 0; i < LARGE_LIST_SIZE; i = i + 2)
+            {
+                var matchEntity = new TestEntity1("id" + i, "match");
+                var expectedEntity = new TestEntity1("id" + i, "new");
+                var nomatchEntity = new TestEntity1("id" + (i + 1), "no match");
+                Writer.Add(matchEntity.Identifier, matchEntity);
+                Writer.Add(nomatchEntity.Identifier, nomatchEntity);
+                expectedList.Add(expectedEntity);
+            }
+
+            Expression<Func<TestEntity1, bool>> predicate = e => e.Field1.Equals("match");
+            Action<TestEntity1> update = e => e.Field1 = "new";
+            Writer.UpdateWhere(predicate, update);
+
+            foreach (var expected in expectedList)
+            {
+                var actual = Reader.GetByKey<TestEntity1>(expected.Identifier);
+                Assert.AreEqual(expected, actual, "comparison failed for item " + expected.Identifier);
+            }
+        }
+
+        [Test]
+        public void delete_where_deletes_matching_entities_on_large_lists()
+        {
+            var expectedList = new List<TestEntity1>();
+
+            for (int i = 0; i < LARGE_LIST_SIZE; i = i + 2)
+            {
+                var matchEntity = new TestEntity1("id" + i, "match");
+                var expectedEntity = new TestEntity1("id" + i, "new");
+                var nomatchEntity = new TestEntity1("id" + (i + 1), "no match");
+                Writer.Add(matchEntity.Identifier, matchEntity);
+                Writer.Add(nomatchEntity.Identifier, nomatchEntity);
+                expectedList.Add(expectedEntity);
+            }
+
+            Expression<Func<TestEntity1, bool>> predicate = e => e.Field1.Equals("match");
+            Writer.DeleteWhere(predicate);
+
+            foreach (var expected in expectedList)
+            {
+                Assert.IsNull(Reader.GetByKey<TestEntity1>(expected.Identifier));
+            }
+        }
+
+        [Test]
+        public void query_returns_matching_entities_on_large_lists()
+        {
+            var expectedList = new List<TestEntity1>();
+
+            for (int i = 0; i < LARGE_LIST_SIZE; i = i + 2)
+            {
+                var matchEntity = new TestEntity1("id" + i, "match");
+                var expectedEntity = new TestEntity1("id" + i, "match");
+                var nomatchEntity = new TestEntity1("id" + (i + 1), "no match");
+                Writer.Add(matchEntity.Identifier, matchEntity);
+                Writer.Add(nomatchEntity.Identifier, nomatchEntity);
+                expectedList.Add(expectedEntity);
+            }
+
+            Expression<Func<TestEntity1, bool>> predicate = e => e.Field1.Equals("match");
+
+            var results = Reader.Query(predicate).ToList();
+
+            foreach (var expected in expectedList)
+            {
+                Assert.Contains(expected,results, "item " + expected.Identifier + " not found in query results");
+            }
+
+            Assert.AreEqual(expectedList.Count, results.Count);
         }
 
         #endregion

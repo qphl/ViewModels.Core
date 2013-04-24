@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Web;
 using CR.ViewModels.Core;
 
@@ -32,10 +33,10 @@ namespace CR.ViewModels.Persitance.ApplicationState
             return entities.TryGetValue(key, out result) ? result : null;
         }
 
-        public IEnumerable<TEntity> Query<TEntity>(Func<TEntity, bool> predicate) where TEntity : class
+        public IEnumerable<TEntity> Query<TEntity>(Expression<Func<TEntity, bool>> predicate) where TEntity : class
         {
             var entities = GetEntities<TEntity>();
-            return entities == null ? new List<TEntity>() : entities.Values.Where(predicate);
+            return entities == null ? new List<TEntity>() : entities.Values.Where(predicate.Compile());
         }
 
         private Dictionary<String, TEntity> GetEntities<TEntity>()

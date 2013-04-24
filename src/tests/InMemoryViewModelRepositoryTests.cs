@@ -15,5 +15,6 @@ namespace CR.ViewModels.Tests
             Reader = _repo;
             Writer = _repo;
         }
+
     }
 }
