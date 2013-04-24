@@ -26,23 +26,29 @@ namespace CR.ViewModels.Persitance.ApplicationState
 
             var entities = GetEntities<TEntity>();
 
-            if (entities == null)
-                return null;
-
             TEntity result;
             return entities.TryGetValue(key, out result) ? result : null;
         }
 
+        /*
         public IEnumerable<TEntity> Query<TEntity>(Expression<Func<TEntity, bool>> predicate) where TEntity : class
         {
             var entities = GetEntities<TEntity>();
             return entities == null ? new List<TEntity>() : entities.Values.Where(predicate.Compile());
         }
+        */
+
+        public IQueryable<TEntity> Query<TEntity>() where TEntity : class
+        {
+            var entities = GetEntities<TEntity>();
+            return entities.Values.AsQueryable();
+        }
 
         private Dictionary<String, TEntity> GetEntities<TEntity>()
         {
             var appStateKey = typeof(TEntity).FullName;
-            return (Dictionary<string, TEntity>)AppState[appStateKey];
+            var entities = AppState[appStateKey];
+            return entities == null ? new Dictionary<string, TEntity>() : (Dictionary<string, TEntity>)entities; 
         }
     }
 }

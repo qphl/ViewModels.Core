@@ -41,10 +41,16 @@ namespace CR.ViewModels.Persistance.Memory
             return entities.TryGetValue(key, out result) ? result : null;
         }
 
-        public IEnumerable<TEntity> Query<TEntity>(Expression<Func<TEntity, bool>> predicate) where TEntity : class
+        /*public IEnumerable<TEntity> Query<TEntity>(Expression<Func<TEntity, bool>> predicate) where TEntity : class
         {
             var entities = GetEntities<TEntity>();
             return entities.Values.Where(predicate.Compile());
+        }*/
+
+        public IQueryable<TEntity> Query<TEntity>() where TEntity : class
+        {
+            var entities = GetEntities<TEntity>();
+            return entities.Values.AsQueryable();
         }
         
         #endregion

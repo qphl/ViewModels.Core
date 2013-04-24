@@ -32,7 +32,7 @@ namespace CR.ViewModels.Persistance.RavenDB
             }
         }
 
-        public IEnumerable<TEntity> Query<TEntity>(Expression<Func<TEntity, bool>> predicate) where TEntity : class
+        /*public IEnumerable<TEntity> Query<TEntity>(Expression<Func<TEntity, bool>> predicate) where TEntity : class
         {
             using (var session = _docStore.OpenSession())
             {
@@ -46,6 +46,19 @@ namespace CR.ViewModels.Persistance.RavenDB
                     foreach(var result in resultChunk)
                         yield return result;
                 } while (resultChunk.Count > 0);
+            }
+        }*/
+
+        /// <summary>
+        /// NOTE: RavenDB will only return 128 items by default, to force you to use skip/take paging
+        /// </summary>
+        /// <typeparam name="TEntity">The type to query</typeparam>
+        /// <returns></returns>
+        public IQueryable<TEntity> Query<TEntity>() where TEntity : class
+        {
+            using (var session = _docStore.OpenSession())
+            {
+                return session.Query<TEntity>();
             }
         }
 

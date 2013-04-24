@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using System.Linq.Expressions;
 using CR.ViewModels.Core;
@@ -114,7 +113,7 @@ namespace CR.ViewModels.Tests
         [Test]
         public void query_on_empty_repository_returns_no_results()
         {
-            Assert.IsEmpty(Reader.Query<TestEntity1>((e) => true));
+            Assert.IsEmpty(Reader.Query<TestEntity1>().Where((e) => true).ToList());
         }
 
         [Test]
@@ -125,7 +124,7 @@ namespace CR.ViewModels.Tests
             Writer.Add(entity1.Identifier, entity1);
             Writer.Add(entity2.Identifier, entity2);
 
-            Assert.IsEmpty(Reader.Query<TestEntity1>(e => e.Identifier == "Not There"));
+            Assert.IsEmpty(Reader.Query<TestEntity1>().Where(e => e.Identifier == "Not There"));
         }
 
         [Test]
@@ -140,7 +139,7 @@ namespace CR.ViewModels.Tests
             Writer.Add(entity3.Identifier, entity3);
             Writer.Add(entity4.Identifier, entity4);
 
-            var results = Reader.Query<TestEntity1>(e => e.Field1 == "match this").ToList();
+            var results = Reader.Query<TestEntity1>().Where(e => e.Field1 == "match this").ToList();
             Assert.Contains(entity2, results);
             Assert.Contains(entity4, results);
             Assert.AreEqual(2, results.Count);
@@ -154,7 +153,7 @@ namespace CR.ViewModels.Tests
             Writer.Add(entity1.Identifier, entity1);
             Writer.Add(entity2.Identifier, entity2);
 
-            Assert.IsEmpty(Reader.Query<TestEntity2>(e => e.Identifier == "woftam1"));
+            Assert.IsEmpty(Reader.Query<TestEntity2>().Where(e => e.Identifier == "woftam1"));
         }
 
         #endregion
@@ -193,7 +192,7 @@ namespace CR.ViewModels.Tests
             Writer.Add(entity1.Identifier, entity1);
             Writer.Delete<TestEntity1>(entity1.Identifier);
 
-            Assert.IsEmpty(Reader.Query<TestEntity1>(e => e.Field1 == "string2"));
+            Assert.IsEmpty(Reader.Query<TestEntity1>().Where(e => e.Field1 == "string2"));
         }
 
         [Test]
@@ -374,7 +373,7 @@ namespace CR.ViewModels.Tests
             Expression<Func<TestEntity1, bool>> predicate = e => e.Field1.Equals("match");
             Writer.DeleteWhere(predicate);
 
-            Assert.IsEmpty(Reader.Query(predicate));
+            Assert.IsEmpty(Reader.Query<TestEntity1>().Where(predicate));
         }
 
         [Test]
@@ -392,7 +391,7 @@ namespace CR.ViewModels.Tests
             Expression<Func<TestEntity1, bool>> predicate = e => e.Field1.Equals("match");
             Writer.DeleteWhere(predicate);
 
-            var stuffLeft = Reader.Query<TestEntity1>(e => !e.Field1.Equals("match")).ToList();
+            var stuffLeft = Reader.Query<TestEntity1>().Where(e => !e.Field1.Equals("match")).ToList();
 
             Assert.Contains(entity2, stuffLeft);
             Assert.Contains(entity3, stuffLeft);
@@ -562,33 +561,6 @@ namespace CR.ViewModels.Tests
             {
                 Assert.IsNull(Reader.GetByKey<TestEntity1>(expected.Identifier));
             }
-        }
-
-        [Test]
-        public void query_returns_matching_entities_on_large_lists()
-        {
-            var expectedList = new List<TestEntity1>();
-
-            for (int i = 0; i < LARGE_LIST_SIZE; i = i + 2)
-            {
-                var matchEntity = new TestEntity1("id" + i, "match");
-                var expectedEntity = new TestEntity1("id" + i, "match");
-                var nomatchEntity = new TestEntity1("id" + (i + 1), "no match");
-                Writer.Add(matchEntity.Identifier, matchEntity);
-                Writer.Add(nomatchEntity.Identifier, nomatchEntity);
-                expectedList.Add(expectedEntity);
-            }
-
-            Expression<Func<TestEntity1, bool>> predicate = e => e.Field1.Equals("match");
-
-            var results = Reader.Query(predicate).ToList();
-
-            foreach (var expected in expectedList)
-            {
-                Assert.Contains(expected,results, "item " + expected.Identifier + " not found in query results");
-            }
-
-            Assert.AreEqual(expectedList.Count, results.Count);
         }
 
         #endregion
