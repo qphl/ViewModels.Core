@@ -104,8 +104,8 @@
     <Compile Include="RavenDBViewModelRepositoryTests.cs" />
     <Compile Include="TestEntity1.cs" />
     <Compile Include="TestEntity2.cs" />
-    <Compile Include="ViewModelReaderTestsBase.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ViewModelRepositoryTestFixture.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config">
