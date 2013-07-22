@@ -6,6 +6,7 @@ using Raven.Client.Embedded;
 
 namespace CR.ViewModels.Tests
 {
+    [TestFixture]
     public class RavenDBViewModelRepositoryTests : ViewModelRepositoryTestFixture
     {
         private IDocumentStore _docStore;
