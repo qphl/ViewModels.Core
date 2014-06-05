@@ -1,7 +1,9 @@
 ﻿using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Threading;
 using CR.ViewModels.Core;
 using CR.ViewModels.Core.Exceptions;
 
@@ -9,18 +11,18 @@ namespace CR.ViewModels.Persistance.Memory
 {
     /// <summary>
     /// In Memory ViewModel Repository
-    /// Stores ViewModels to an internal dictionary
+    /// Stores ViewModels to an internal ConcurrentDictionary
     /// </summary>
     public class InMemoryViewModelRepository : IViewModelReader, IViewModelWriter
     {
         
-        private Dictionary<Type, object> EntityCollections { get; set; }
+        private ConcurrentDictionary<Type, object> EntityCollections { get; set; }
 
         #region Constructor
 
         public InMemoryViewModelRepository()
         {
-            EntityCollections = new Dictionary<Type, object>();
+            EntityCollections = new ConcurrentDictionary<Type, object>();
         }
 
         #endregion
@@ -53,15 +55,10 @@ namespace CR.ViewModels.Persistance.Memory
 
         public void Add<TEntity>(string key, TEntity entity) where TEntity : class
         {
-            if (!EntityCollections.ContainsKey(typeof(TEntity)))
-                EntityCollections.Add(typeof(TEntity), new Dictionary<string, TEntity>());
+            var entities = (ConcurrentDictionary<string, TEntity>)EntityCollections.GetOrAdd(typeof(TEntity), new ConcurrentDictionary<string, TEntity>());
 
-            var entities = GetEntities<TEntity>();
-
-            if(entities.ContainsKey(key))
+            if (!entities.TryAdd(key,entity))
                 throw new DuplicateKeyException("An entity with this key has alreaady been added");
-
-            entities.Add(key, entity);
         }
 
         public void Update<TEntity>(string key, Action<TEntity> update) where TEntity : class
@@ -78,7 +75,6 @@ namespace CR.ViewModels.Persistance.Memory
             var entities = GetEntities<TEntity>();
 
             TEntity entity;
-
             if (entities.TryGetValue(key, out entity))
             {
                 update(entity);
@@ -114,11 +110,9 @@ namespace CR.ViewModels.Persistance.Memory
                 throw new ArgumentException("key must not be an empty string", "key");
 
             var entities = GetEntities<TEntity>();
-
-            if(!entities.ContainsKey(key))
+            TEntity entity;
+            if(!entities.TryRemove(key,out entity))
                 throw new EntityNotFoundException();
-
-            entities.Remove(key);
         }
 
         public void DeleteWhere<TEntity>(Expression<Func<TEntity, bool>> predicate) where TEntity : class
@@ -130,20 +124,23 @@ namespace CR.ViewModels.Persistance.Memory
             var toDelete = entities.Where(e => predicate.Compile()(e.Value)).ToList();
 
             foreach (var ent in toDelete)
-                entities.Remove(ent.Key);
+            {
+                TEntity entity;
+                entities.TryRemove(ent.Key, out entity);
+            }
         }
 
         #endregion
 
-        private Dictionary<string, TEntity> GetEntities<TEntity>()
+        private ConcurrentDictionary<string, TEntity> GetEntities<TEntity>()
         {
             object typeDict;
             if (EntityCollections.TryGetValue(typeof (TEntity), out typeDict))
             {
-                return (Dictionary<string, TEntity>) typeDict;
+                return (ConcurrentDictionary<string, TEntity>) typeDict;
             }
             
-            return new Dictionary<string, TEntity>();
+            return new ConcurrentDictionary<string, TEntity>();
         }
     }
 }
