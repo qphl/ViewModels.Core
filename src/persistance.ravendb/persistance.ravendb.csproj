@@ -59,9 +59,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <None Include="CR.ViewModels.Persistance.RavenDB.nuspec">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
+    <None Include="CR.ViewModels.Persistance.RavenDB.nuspec" />
     <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

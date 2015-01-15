@@ -44,9 +44,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <None Include="CR.ViewModels.Persistance.Memory.nuspec">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
+    <None Include="CR.ViewModels.Persistance.Memory.nuspec" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
