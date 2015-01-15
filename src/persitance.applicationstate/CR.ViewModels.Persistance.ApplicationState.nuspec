@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0"?>
 <package >
   <metadata>
-    <id>CR.ViewModels.Persistence.Memory</id>
+    <id>CR.ViewModels.Persistence.ApplicationState</id>
     <version>1.0.0</version>
     <authors>Rich Knight and Jon Bradford</authors>
     <owners>Rich Knight and Jon Bradford</owners>
@@ -9,7 +9,7 @@
     <projectUrl>https://github.com/cognisant/cr-viewmodels</projectUrl>
     <iconUrl>https://raw.githubusercontent.com/cognisant/cr-viewmodels/master/logo.png</iconUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
-    <description>In Memory Persistance for CR.ViewModels</description>
+    <description>ASP ApplicationState Persistance for CR.ViewModels</description>
     <releaseNotes>Initial Release</releaseNotes>
     <copyright>Copyright 2015</copyright>
     <dependencies>
