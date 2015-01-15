@@ -125,7 +125,7 @@
       <Project>{898F2107-34AD-459B-9B33-A722F3DF9E40}</Project>
       <Name>persistance.ravendb</Name>
     </ProjectReference>
-    <ProjectReference Include="..\persitance.applicationstate\persistance.applicationstate.csproj">
+    <ProjectReference Include="..\persistance.applicationstate\persistance.applicationstate.csproj">
       <Project>{186E570A-1A2B-4064-B711-4745B3389251}</Project>
       <Name>persistance.applicationstate</Name>
     </ProjectReference>
