@@ -10,7 +10,7 @@
     <projectUrl>https://github.com/cognisant/cr-viewmodels</projectUrl>
     <iconUrl>https://raw.githubusercontent.com/cognisant/cr-viewmodels/master/logo.png</iconUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
-    <description>$description$</description>
+    <description>In memory persistance for CR ViewModels</description>
     <releaseNotes>Initial Version</releaseNotes>
     <copyright>Copyright 2015</copyright>
     <dependencies>

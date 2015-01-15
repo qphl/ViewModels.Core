@@ -10,7 +10,7 @@
     <projectUrl>https://github.com/cognisant/cr-viewmodels</projectUrl>
     <iconUrl>https://raw.githubusercontent.com/cognisant/cr-viewmodels/master/logo.png</iconUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
-    <description>$description$</description>
+    <description>A set of .net interfaces for reading/writing CQRS ViewModels in a generic way</description>
     <releaseNotes>Initial Version</releaseNotes>
     <copyright>Copyright 2015</copyright>
   </metadata>
