@@ -5,12 +5,12 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("persistance.ravendb")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyTitle("CR ViewModels RavenDB Persistance")]
+[assembly: AssemblyDescription("RavenDB persistance for CR ViewModels")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("persistance.ravendb")]
-[assembly: AssemblyCopyright("Copyright ©  2013")]
+[assembly: AssemblyCompany("Cognisant")]
+[assembly: AssemblyProduct("cr.viewmodels.persistance.ravendb")]
+[assembly: AssemblyCopyright("Copyright ©  2015")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 

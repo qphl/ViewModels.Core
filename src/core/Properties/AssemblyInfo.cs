@@ -5,8 +5,8 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("cr.viewmodels.core")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyTitle("Cognisant ViewModels Core")]
+[assembly: AssemblyDescription("A set of .net interfaces for reading/writing CQRS ViewModels in a generic way")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("cognisant")]
 [assembly: AssemblyProduct("cr.viewmodels.core")]
