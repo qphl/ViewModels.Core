@@ -9,7 +9,7 @@ REM Build
 if not "%errorlevel%"=="0" goto failure
 
 REM Unit tests
-%GallioEcho% src\tests\bin\%config%\CR.ViewModels.Tests.dll
+"%GallioEcho%" src\tests\bin\%config%\CR.ViewModels.Tests.dll
 if not "%errorlevel%"=="0" goto failure
 
 REM Package
