@@ -4,8 +4,8 @@
     <id>$id$</id>
     <version>$version$</version>
     <title>$title$</title>
-    <authors>Rich Knight and Jon Bradford</authors>
-    <authors>Rich Knight and Jon Bradford</authors>
+    <authors>Rich Knight,Jon Bradford</authors>
+    <owners>Rich Knight,Jon Bradford</owners>
     <licenseUrl>https://raw.githubusercontent.com/cognisant/cr-viewmodels/master/LICENSE</licenseUrl>
     <projectUrl>https://github.com/cognisant/cr-viewmodels</projectUrl>
     <iconUrl>https://raw.githubusercontent.com/cognisant/cr-viewmodels/master/logo.png</iconUrl>
