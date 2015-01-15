@@ -14,16 +14,16 @@ if not "%errorlevel%"=="0" goto failure
 
 REM Package
 mkdir Build
-cmd /c "%nuget%" pack "src\core\core.csproj" -symbols -o Build -p Configuration=%config%
+cmd /c %nuget% pack "src\core\core.csproj" -symbols -o Build -p Configuration=%config%
 if not "%errorlevel%"=="0" goto failure
 
-cmd /c "%nuget%" pack "src\persistance.memory\persistance.memory.csproj" -symbols -o Build -p Configuration=%config%
+cmd /c %nuget% pack "src\persistance.memory\persistance.memory.csproj" -symbols -o Build -p Configuration=%config%
 if not "%errorlevel%"=="0" goto failure
 
-cmd /c "%nuget%" pack "src\persistance.ravendb\persistance.ravendb.csproj" -symbols -o Build -p Configuration=%config%
+cmd /c %nuget% pack "src\persistance.ravendb\persistance.ravendb.csproj" -symbols -o Build -p Configuration=%config%
 if not "%errorlevel%"=="0" goto failure
 
-cmd /c "%nuget%" pack "src\persistance.applicationstate\persistance.applicationstate.csproj" -symbols -o Build -p Configuration=%config%
+cmd /c %nuget% pack "src\persistance.applicationstate\persistance.applicationstate.csproj" -symbols -o Build -p Configuration=%config%
 if not "%errorlevel%"=="0" goto failure
 
 :success
