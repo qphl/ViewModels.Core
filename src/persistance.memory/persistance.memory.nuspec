@@ -1,16 +1,20 @@
-<?xml version="1.0"?>
+﻿<?xml version="1.0"?>
 <package >
   <metadata>
-    <id>CR.ViewModels.Core</id>
-    <version>1.0.0</version>
+    <id>$id$</id>
+    <version>$version$</version>
+    <title>$title$</title>
     <authors>Rich Knight and Jon Bradford</authors>
-    <owners>Rich Knight and Jon Bradford</owners>
+    <authors>Rich Knight and Jon Bradford</authors>
     <licenseUrl>https://raw.githubusercontent.com/cognisant/cr-viewmodels/master/LICENSE</licenseUrl>
     <projectUrl>https://github.com/cognisant/cr-viewmodels</projectUrl>
     <iconUrl>https://raw.githubusercontent.com/cognisant/cr-viewmodels/master/logo.png</iconUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
-    <description>A set of .net interfaces for reading/writing CQRS ViewModels in a generic way</description>
-    <releaseNotes>Initial Release</releaseNotes>
+    <description>$description$</description>
+    <releaseNotes>Initial Version</releaseNotes>
     <copyright>Copyright 2015</copyright>
+    <dependencies>
+      <dependency id="CR.ViewModels.Core" version="1.0.0" />
+    </dependencies>
   </metadata>
 </package>
