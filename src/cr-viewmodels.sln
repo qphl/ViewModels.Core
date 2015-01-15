@@ -1,13 +1,15 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2012
+# Visual Studio 2013
+VisualStudioVersion = 12.0.30501.0
+MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "core", "core\core.csproj", "{8BFEA4BE-C00F-4C54-9AD2-6BCD70C4A0D9}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "persistance.memory", "persistance.memory\persistance.memory.csproj", "{D5DCB132-A8C5-4057-AA2E-3E12EFD63CD1}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "tests", "tests\tests.csproj", "{1E8BB448-FD81-4CB0-A67A-D2EC5D8C98AC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "persitance.applicationstate", "persitance.applicationstate\persitance.applicationstate.csproj", "{186E570A-1A2B-4064-B711-4745B3389251}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "persistance.applicationstate", "persistance.applicationstate\persistance.applicationstate.csproj", "{186E570A-1A2B-4064-B711-4745B3389251}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{348EF9EB-A6A2-4CA8-856E-095BCAD021FB}"
 	ProjectSection(SolutionItems) = preProject
