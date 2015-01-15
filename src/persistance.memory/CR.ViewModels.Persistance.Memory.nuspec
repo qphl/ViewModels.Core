@@ -2,7 +2,7 @@
 <package >
   <metadata>
     <id>CR.ViewModels.Persistence.Memory</id>
-    <version>1.0.0</version>
+    <version>1.0.1</version>
     <authors>Rich Knight and Jon Bradford</authors>
     <owners>Rich Knight and Jon Bradford</owners>
     <licenseUrl>https://raw.githubusercontent.com/cognisant/cr-viewmodels/master/LICENSE</licenseUrl>
@@ -13,7 +13,7 @@
     <releaseNotes>Initial Release</releaseNotes>
     <copyright>Copyright 2015</copyright>
     <dependencies>
-      <dependency id="CR.ViewModels.Core" version="1.0.0" />
+      <dependency id="CR.ViewModels.Core" version="1.0.1" />
     </dependencies>
   </metadata>
 </package>
