@@ -17,7 +17,7 @@ namespace CR.ViewModels.Persistance.Memory
     public class InMemoryViewModelRepository : IViewModelReader, IViewModelWriter
     {
         
-        private ConcurrentDictionary<Type, object> EntityCollections { get; set; }
+        public ConcurrentDictionary<Type, object> EntityCollections { get; set; }
 
         #region Constructor
 
