@@ -13,6 +13,7 @@ namespace CR.ViewModels.Persistance.Memory
     /// In Memory ViewModel Repository
     /// Stores ViewModels to an internal ConcurrentDictionary
     /// </summary>
+    [Serializable]
     public class InMemoryViewModelRepository : IViewModelReader, IViewModelWriter
     {
         
