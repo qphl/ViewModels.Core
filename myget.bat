@@ -9,7 +9,8 @@ call "%msbuild%" src\cr-viewmodels.sln /p:Configuration="%config%" /m /v:M /fl /
 if not "%errorlevel%"=="0" goto failure
 
 REM Unit tests
-"%GallioEcho%" src\tests\bin\%config%\CR.ViewModels.Tests.dll
+call %nuget% install NUnit.Runners -Version 2.6.2 -OutputDirectory packages
+packages\NUnit.Runners.2.6.2\tools\nunit-console.exe /config:%config% /framework:net-4.5 src\tests\bin\%config%\CR.ViewModels.Tests.dll
 if not "%errorlevel%"=="0" goto failure
 
 REM Package
