@@ -7,7 +7,7 @@ using CR.ViewModels.Core.Exceptions;
 using Raven.Abstractions.Exceptions;
 using Raven.Client;
 
-namespace CR.ViewModels.Persistance.RavenDB
+namespace CR.ViewModels.Persistence.RavenDB
 {
     public class RavenDBViewModelWriter : IViewModelWriter
     {

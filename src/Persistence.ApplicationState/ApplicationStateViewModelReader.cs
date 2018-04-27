@@ -1,11 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Linq.Expressions;
 using System.Web;
 using CR.ViewModels.Core;
 
-namespace CR.ViewModels.Persitance.ApplicationState
+namespace CR.ViewModels.Persistence.ApplicationState
 {
     public class ApplicationStateViewModelReader : IViewModelReader
     {

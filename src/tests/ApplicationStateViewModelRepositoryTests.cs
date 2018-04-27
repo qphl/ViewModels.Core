@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Web;
-using CR.ViewModels.Persitance.ApplicationState;
+using CR.ViewModels.Persistence.ApplicationState;
 using NUnit.Framework;
 
 namespace CR.ViewModels.Tests

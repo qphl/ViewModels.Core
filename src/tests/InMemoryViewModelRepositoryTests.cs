@@ -1,4 +1,4 @@
-﻿using CR.ViewModels.Persistance.Memory;
+﻿using CR.ViewModels.Persistence.Memory;
 using NUnit.Framework;
 
 namespace CR.ViewModels.Tests

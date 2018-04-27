@@ -1,4 +1,4 @@
-﻿using CR.ViewModels.Persistance.RavenDB;
+﻿using CR.ViewModels.Persistence.RavenDB;
 using NUnit.Framework;
 using Raven.Client;
 using Raven.Client.Document;
@@ -18,6 +18,12 @@ namespace CR.ViewModels.Tests
             _docStore.Initialize();
             Reader = new RavenDBViewModelReader(_docStore);
             Writer = new RavenDBViewModelWriter(_docStore);
+        }
+
+        [TearDown]
+        public void TearDown()
+        {
+            _docStore.Dispose();
         }
     }
 }

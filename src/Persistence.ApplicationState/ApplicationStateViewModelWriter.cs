@@ -7,7 +7,7 @@ using System.Web;
 using CR.ViewModels.Core;
 using CR.ViewModels.Core.Exceptions;
 
-namespace CR.ViewModels.Persitance.ApplicationState
+namespace CR.ViewModels.Persistence.ApplicationState
 {
     public class ApplicationStateViewModelWriter : IViewModelWriter
     {

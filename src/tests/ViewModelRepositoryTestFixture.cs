@@ -113,7 +113,7 @@ namespace CR.ViewModels.Tests
         [Test]
         public void query_on_empty_repository_returns_no_results()
         {
-            Assert.IsEmpty(Reader.Query<TestEntity1>().Where((e) => true).ToList());
+            Assert.IsEmpty(Reader.Query<TestEntity1>().Where(e => e.Field1 == null || e.Field1 != null).ToList());
         }
 
         [Test]
@@ -355,7 +355,7 @@ namespace CR.ViewModels.Tests
         [Test]
         public void delete_where_on_empty_repository_does_nothing()
         {
-            Assert.DoesNotThrow(() => Writer.DeleteWhere<TestEntity1>(e => true));
+            Assert.DoesNotThrow(() => Writer.DeleteWhere<TestEntity1>(e => e.Field1 == null || e.Field1 != null));
         }
 
         [Test]
@@ -428,7 +428,7 @@ namespace CR.ViewModels.Tests
         [Test]
         public void update_where_on_empty_repository_does_nothing()
         {
-            Assert.DoesNotThrow(() => Writer.UpdateWhere<TestEntity1>(e => true, e => { }));
+            Assert.DoesNotThrow(() => Writer.UpdateWhere<TestEntity1>(e => e.Field1 == null || e.Field1 != null, e => { }));
         }
 
         [Test]
@@ -440,7 +440,7 @@ namespace CR.ViewModels.Tests
         [Test]
         public void update_where_with_null_action_throws_an_argument_null_exception()
         {
-            Assert.Throws<ArgumentNullException>(() => Writer.UpdateWhere<TestEntity1>(e => true, null));
+            Assert.Throws<ArgumentNullException>(() => Writer.UpdateWhere<TestEntity1>(e => e.Field1 == null || e.Field1 != null, null));
         }
 
         [Test]
