@@ -1,10 +1,14 @@
-﻿using System;
-using System.Linq;
-using CR.ViewModels.Core;
-using Raven.Client;
+﻿// <copyright file="RavenDBViewModelReader.cs" company="Cognisant">
+// Copyright (c) Cognisant. All rights reserved.
+// </copyright>
 
 namespace CR.ViewModels.Persistence.RavenDB
 {
+    using System;
+    using System.Linq;
+    using CR.ViewModels.Core;
+    using Raven.Client;
+
     public class RavenDBViewModelReader : IViewModelReader
     {
         private readonly IDocumentStore _docStore;
@@ -14,13 +18,18 @@ namespace CR.ViewModels.Persistence.RavenDB
             _docStore = store;
         }
 
-        public TEntity GetByKey<TEntity>(string key) where TEntity : class
+        public TEntity GetByKey<TEntity>(string key)
+            where TEntity : class
         {
             if (key == null)
+            {
                 throw new ArgumentNullException("key");
+            }
 
-            if (key == "")
+            if (key == string.Empty)
+            {
                 throw new ArgumentException("key must not be an empty string", "key");
+            }
 
             using (var session = _docStore.OpenSession())
             {
@@ -34,7 +43,8 @@ namespace CR.ViewModels.Persistence.RavenDB
         /// </summary>
         /// <typeparam name="TEntity">The type to query</typeparam>
         /// <returns></returns>
-        public IQueryable<TEntity> Query<TEntity>() where TEntity : class
+        public IQueryable<TEntity> Query<TEntity>()
+            where TEntity : class
         {
             using (var session = _docStore.OpenSession())
             {
@@ -48,4 +58,3 @@ namespace CR.ViewModels.Persistence.RavenDB
         }
     }
 }
-

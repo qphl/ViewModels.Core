@@ -14,8 +14,6 @@ namespace CR.ViewModels.Tests
         protected IViewModelReader Reader { get; set; }
         protected IViewModelWriter Writer { get; set; }
 
-        #region Adding & getting by id
-
         [Test]
         public void get_by_null_key_throws_argument_null_exception()
         {
@@ -106,10 +104,6 @@ namespace CR.ViewModels.Tests
             Assert.AreEqual(entity2, Reader.GetByKey<TestEntity2>(entity2.Identifier));
         }
 
-        #endregion
-
-        #region Querying
-
         [Test]
         public void query_on_empty_repository_returns_no_results()
         {
@@ -155,10 +149,6 @@ namespace CR.ViewModels.Tests
 
             Assert.IsEmpty(Reader.Query<TestEntity2>().Where(e => e.Identifier == "woftam1"));
         }
-
-        #endregion
-
-        #region Deleting
 
         [Test]
         public void deleting_from_an_empty_repository_throws_an_entity_not_found_exception()
@@ -260,10 +250,6 @@ namespace CR.ViewModels.Tests
             Assert.Throws<ArgumentException>(() => Writer.Delete<TestEntity1>(""));
         }
 
-        #endregion
-
-        #region Updating
-
         [Test]
         public void update_with_null_key_throws_an_argument_null_exception()
         {
@@ -346,10 +332,6 @@ namespace CR.ViewModels.Tests
             Assert.AreEqual(expected, actual);
         }
 
-        #endregion
-
-        #region Deleting with predicate
-
         //null predicate
 
         [Test]
@@ -420,10 +402,6 @@ namespace CR.ViewModels.Tests
             var actual = Reader.GetByKey<TestEntity2>(entity2.Identifier);
             Assert.AreEqual(expected, actual);
         }
-
-        #endregion
-
-        #region Updating with predicate
 
         [Test]
         public void update_where_on_empty_repository_does_nothing()
@@ -623,9 +601,6 @@ namespace CR.ViewModels.Tests
 
             Assert.IsTrue(results.SequenceEqual(expectedList));
         }
-
-        #endregion
-
     }
     // ReSharper restore InconsistentNaming
 }

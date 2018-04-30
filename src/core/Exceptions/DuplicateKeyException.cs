@@ -1,8 +1,12 @@
-﻿using System;
-using System.Runtime.Serialization;
+﻿// <copyright file="DuplicateKeyException.cs" company="Cognisant">
+// Copyright (c) Cognisant. All rights reserved.
+// </copyright>
 
 namespace CR.ViewModels.Core.Exceptions
 {
+    using System;
+    using System.Runtime.Serialization;
+
     [Serializable]
     public class DuplicateKeyException : Exception
     {
@@ -10,19 +14,21 @@ namespace CR.ViewModels.Core.Exceptions
         {
         }
 
-        public DuplicateKeyException(string message) : base(message)
+        public DuplicateKeyException(string message)
+            : base(message)
         {
         }
 
-        public DuplicateKeyException(string message, Exception inner) : base(message, inner)
+        public DuplicateKeyException(string message, Exception inner)
+            : base(message, inner)
         {
         }
 
         protected DuplicateKeyException(
             SerializationInfo info,
-            StreamingContext context) : base(info, context)
+            StreamingContext context)
+            : base(info, context)
         {
         }
     }
-
 }

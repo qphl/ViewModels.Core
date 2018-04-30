@@ -1,12 +1,16 @@
-﻿using System;
-using System.Collections.Concurrent;
-using System.Linq;
-using System.Linq.Expressions;
-using CR.ViewModels.Core;
-using CR.ViewModels.Core.Exceptions;
+﻿// <copyright file="InMemoryViewModelRepository.cs" company="Cognisant">
+// Copyright (c) Cognisant. All rights reserved.
+// </copyright>
 
 namespace CR.ViewModels.Persistence.Memory
 {
+    using System;
+    using System.Collections.Concurrent;
+    using System.Linq;
+    using System.Linq.Expressions;
+    using CR.ViewModels.Core;
+    using CR.ViewModels.Core.Exceptions;
+
     /// <summary>
     /// In Memory ViewModel Repository
     /// Stores ViewModels to an internal ConcurrentDictionary
@@ -14,62 +18,67 @@ namespace CR.ViewModels.Persistence.Memory
     [Serializable]
     public class InMemoryViewModelRepository : IViewModelReader, IViewModelWriter
     {
-        
-        public ConcurrentDictionary<Type, object> EntityCollections { get; set; }
-
-        #region Constructor
-
         public InMemoryViewModelRepository()
         {
             EntityCollections = new ConcurrentDictionary<Type, object>();
         }
 
-        #endregion
+        public ConcurrentDictionary<Type, object> EntityCollections { get; set; }
 
-        #region IViewModelReader Implementation
-
-        public TEntity GetByKey<TEntity>(string key) where TEntity : class
+        public TEntity GetByKey<TEntity>(string key)
+            where TEntity : class
         {
-            if(key == null)
+            if (key == null)
+            {
                 throw new ArgumentNullException("key");
+            }
 
-            if(key == "")
+            if (key == string.Empty)
+            {
                 throw new ArgumentException("key must not be an empty string", "key");
+            }
 
             var entities = GetEntities<TEntity>();
-            
+
             TEntity result;
             return entities.TryGetValue(key, out result) ? result : null;
         }
 
-        public IQueryable<TEntity> Query<TEntity>() where TEntity : class
+        public IQueryable<TEntity> Query<TEntity>()
+            where TEntity : class
         {
             var entities = GetEntities<TEntity>();
             return entities.Values.AsQueryable();
         }
-        
-        #endregion
 
-        #region IViewModelWriter Implementation
-
-        public void Add<TEntity>(string key, TEntity entity) where TEntity : class
+        public void Add<TEntity>(string key, TEntity entity)
+            where TEntity : class
         {
             var entities = (ConcurrentDictionary<string, TEntity>)EntityCollections.GetOrAdd(typeof(TEntity), new ConcurrentDictionary<string, TEntity>());
 
-            if (!entities.TryAdd(key,entity))
+            if (!entities.TryAdd(key, entity))
+            {
                 throw new DuplicateKeyException("An entity with this key has alreaady been added");
+            }
         }
 
-        public void Update<TEntity>(string key, Action<TEntity> update) where TEntity : class
+        public void Update<TEntity>(string key, Action<TEntity> update)
+            where TEntity : class
         {
             if (key == null)
+            {
                 throw new ArgumentNullException("key");
+            }
 
-            if (key == "")
+            if (key == string.Empty)
+            {
                 throw new ArgumentException("key must not be an empty string", "key");
+            }
 
             if (update == null)
+            {
                 throw new ArgumentNullException("update");
+            }
 
             var entities = GetEntities<TEntity>();
 
@@ -84,40 +93,56 @@ namespace CR.ViewModels.Persistence.Memory
             }
         }
 
-        public void UpdateWhere<TEntity>(Expression<Func<TEntity, bool>> predicate, Action<TEntity> update) where TEntity : class
+        public void UpdateWhere<TEntity>(Expression<Func<TEntity, bool>> predicate, Action<TEntity> update)
+            where TEntity : class
         {
             if (predicate == null)
+            {
                 throw new ArgumentNullException("predicate");
+            }
 
             if (update == null)
+            {
                 throw new ArgumentNullException("update");
-            
+            }
 
             var entities = GetEntities<TEntity>();
             var toUpdate = entities.Values.Where(predicate.Compile()).ToList();
 
             foreach (var ent in toUpdate)
+            {
                 update(ent);
+            }
         }
 
-        public void Delete<TEntity>(string key) where TEntity : class
+        public void Delete<TEntity>(string key)
+            where TEntity : class
         {
-            if(key == null)
+            if (key == null)
+            {
                 throw new ArgumentNullException("key");
+            }
 
-            if (key == "")
+            if (key == string.Empty)
+            {
                 throw new ArgumentException("key must not be an empty string", "key");
+            }
 
             var entities = GetEntities<TEntity>();
             TEntity entity;
-            if(!entities.TryRemove(key,out entity))
+            if (!entities.TryRemove(key, out entity))
+            {
                 throw new EntityNotFoundException();
+            }
         }
 
-        public void DeleteWhere<TEntity>(Expression<Func<TEntity, bool>> predicate) where TEntity : class
+        public void DeleteWhere<TEntity>(Expression<Func<TEntity, bool>> predicate)
+            where TEntity : class
         {
             if (predicate == null)
+            {
                 throw new ArgumentNullException("predicate");
+            }
 
             var entities = GetEntities<TEntity>();
             var toDelete = entities.Where(e => predicate.Compile()(e.Value)).ToList();
@@ -129,16 +154,14 @@ namespace CR.ViewModels.Persistence.Memory
             }
         }
 
-        #endregion
-
         private ConcurrentDictionary<string, TEntity> GetEntities<TEntity>()
         {
             object typeDict;
-            if (EntityCollections.TryGetValue(typeof (TEntity), out typeDict))
+            if (EntityCollections.TryGetValue(typeof(TEntity), out typeDict))
             {
-                return (ConcurrentDictionary<string, TEntity>) typeDict;
+                return (ConcurrentDictionary<string, TEntity>)typeDict;
             }
-            
+
             return new ConcurrentDictionary<string, TEntity>();
         }
     }

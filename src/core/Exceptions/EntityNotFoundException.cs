@@ -1,8 +1,12 @@
-﻿using System;
-using System.Runtime.Serialization;
+﻿// <copyright file="EntityNotFoundException.cs" company="Cognisant">
+// Copyright (c) Cognisant. All rights reserved.
+// </copyright>
 
 namespace CR.ViewModels.Core.Exceptions
 {
+    using System;
+    using System.Runtime.Serialization;
+
     [Serializable]
     public class EntityNotFoundException : Exception
     {
@@ -10,17 +14,20 @@ namespace CR.ViewModels.Core.Exceptions
         {
         }
 
-        public EntityNotFoundException(string message) : base(message)
+        public EntityNotFoundException(string message)
+            : base(message)
         {
         }
 
-        public EntityNotFoundException(string message, Exception inner) : base(message, inner)
+        public EntityNotFoundException(string message, Exception inner)
+            : base(message, inner)
         {
         }
 
         protected EntityNotFoundException(
             SerializationInfo info,
-            StreamingContext context) : base(info, context)
+            StreamingContext context)
+            : base(info, context)
         {
         }
     }
