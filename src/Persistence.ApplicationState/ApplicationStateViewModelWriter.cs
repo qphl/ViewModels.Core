@@ -141,6 +141,5 @@ namespace CR.ViewModels.Persistence.ApplicationState
                 entities.Remove(entity.Key);
             }
         }
-
     }
 }

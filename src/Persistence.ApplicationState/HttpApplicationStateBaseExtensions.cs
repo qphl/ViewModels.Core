@@ -1,8 +1,12 @@
-﻿using System.Collections.Generic;
-using System.Web;
+﻿// <copyright file="HttpApplicationStateBaseExtensions.cs" company="Cognisant">
+// Copyright (c) Cognisant. All rights reserved.
+// </copyright>
 
 namespace CR.ViewModels.Persistence.ApplicationState
 {
+    using System.Collections.Generic;
+    using System.Web;
+
     /// <summary>
     /// Helper class used for extensions to HttpApplicationStateBase.
     /// Used by <see cref="ApplicationStateViewModelReader"/> and <see cref="ApplicationStateViewModelWriter"/>.
