@@ -7,28 +7,36 @@ namespace CR.ViewModels.Core.Exceptions
     using System;
     using System.Runtime.Serialization;
 
+    /// <summary>
+    /// Represents an error that occurs when an <see cref="IViewModelWriter"/> attempts to write a View Model
+    /// with a key that matches an existing key in the specified view model storage implementation.
+    /// </summary>
     [Serializable]
     public class DuplicateKeyException : Exception
     {
+#pragma warning disable SA1648 // inheritdoc should be used with inheriting class - disabled due to missing implementation for construtors.
+        /// <inheritdoc />
         public DuplicateKeyException()
         {
         }
 
+        /// <inheritdoc />
         public DuplicateKeyException(string message)
             : base(message)
         {
         }
 
+        /// <inheritdoc />
         public DuplicateKeyException(string message, Exception inner)
             : base(message, inner)
         {
         }
 
-        protected DuplicateKeyException(
-            SerializationInfo info,
-            StreamingContext context)
+        /// <inheritdoc />
+        protected DuplicateKeyException(SerializationInfo info, StreamingContext context)
             : base(info, context)
         {
         }
+#pragma warning restore SA1648 // inheritdoc should be used with inheriting class
     }
 }

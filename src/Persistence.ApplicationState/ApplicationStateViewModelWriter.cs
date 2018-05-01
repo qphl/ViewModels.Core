@@ -13,15 +13,24 @@ namespace CR.ViewModels.Persistence.ApplicationState
     using Core;
     using Core.Exceptions;
 
+    /// <summary>
+    /// A implementation of the <see cref="IViewModelReader"/> interface that uses
+    /// HttpApplicationState from System.Web to store view models.
+    /// </summary>
     public class ApplicationStateViewModelWriter : IViewModelWriter
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ApplicationStateViewModelWriter"/> class.
+        /// </summary>
+        /// <param name="appState">The application state where the view models should be stored.</param>
         public ApplicationStateViewModelWriter(HttpApplicationStateBase appState)
         {
             AppState = appState;
         }
 
-        private HttpApplicationStateBase AppState { get; set; }
+        private HttpApplicationStateBase AppState { get; }
 
+        /// <inheritdoc />
         public void Add<TEntity>(string key, TEntity entity)
             where TEntity : class
         {
@@ -30,38 +39,38 @@ namespace CR.ViewModels.Persistence.ApplicationState
                 AppState[typeof(TEntity).FullName] = new Dictionary<string, TEntity>();
             }
 
-            var entities = GetEntities<TEntity>();
+            var entities = AppState.GetEntities<TEntity>();
 
             if (entities.ContainsKey(key))
             {
-                throw new DuplicateKeyException("An entity with this key has alreaady been added");
+                throw new DuplicateKeyException("An entity with this key has already been added");
             }
 
             entities.Add(key, entity);
         }
 
+        /// <inheritdoc />
         public void Update<TEntity>(string key, Action<TEntity> update)
             where TEntity : class
         {
             if (key == null)
             {
-                throw new ArgumentNullException("key");
+                throw new ArgumentNullException(nameof(key));
             }
 
             if (key == string.Empty)
             {
-                throw new ArgumentException("key must not be an empty string", "key");
+                throw new ArgumentException("key must not be an empty string", nameof(key));
             }
 
             if (update == null)
             {
-                throw new ArgumentNullException("update");
+                throw new ArgumentNullException(nameof(update));
             }
 
-            var entities = GetEntities<TEntity>();
-            TEntity entity;
+            var entities = AppState.GetEntities<TEntity>();
 
-            if (entities.TryGetValue(key, out entity))
+            if (entities.TryGetValue(key, out var entity))
             {
                 update(entity);
             }
@@ -71,38 +80,40 @@ namespace CR.ViewModels.Persistence.ApplicationState
             }
         }
 
+        /// <inheritdoc />
         public void UpdateWhere<TEntity>(Expression<Func<TEntity, bool>> predicate, Action<TEntity> update)
             where TEntity : class
         {
             if (predicate == null)
             {
-                throw new ArgumentNullException("predicate");
+                throw new ArgumentNullException(nameof(predicate));
             }
 
             if (update == null)
             {
-                throw new ArgumentNullException("update");
+                throw new ArgumentNullException(nameof(update));
             }
 
-            var entities = GetEntities<TEntity>();
+            var entities = AppState.GetEntities<TEntity>();
             var targets = entities.Values.Where(predicate.Compile()).ToList();
             Parallel.ForEach(targets, update);
         }
 
+        /// <inheritdoc />
         public void Delete<TEntity>(string key)
             where TEntity : class
         {
             if (key == null)
             {
-                throw new ArgumentNullException("key");
+                throw new ArgumentNullException(nameof(key));
             }
 
             if (key == string.Empty)
             {
-                throw new ArgumentException("key must not be an empty string", "key");
+                throw new ArgumentException("key must not be an empty string", nameof(key));
             }
 
-            var entities = GetEntities<TEntity>();
+            var entities = AppState.GetEntities<TEntity>();
 
             if (!entities.ContainsKey(key))
             {
@@ -112,15 +123,16 @@ namespace CR.ViewModels.Persistence.ApplicationState
             entities.Remove(key);
         }
 
+        /// <inheritdoc />
         public void DeleteWhere<TEntity>(Expression<Func<TEntity, bool>> predicate)
             where TEntity : class
         {
             if (predicate == null)
             {
-                throw new ArgumentNullException("predicate");
+                throw new ArgumentNullException(nameof(predicate));
             }
 
-            var entities = GetEntities<TEntity>();
+            var entities = AppState.GetEntities<TEntity>();
 
             var toDelete = entities.Where(e => predicate.Compile()(e.Value)).ToList();
 
@@ -130,12 +142,5 @@ namespace CR.ViewModels.Persistence.ApplicationState
             }
         }
 
-        private Dictionary<string, TEntity> GetEntities<TEntity>()
-        {
-            var appStateKey = typeof(TEntity).FullName;
-            return AppState[appStateKey] != null
-                       ? (Dictionary<string, TEntity>)AppState[appStateKey]
-                       : new Dictionary<string, TEntity>();
-        }
     }
 }

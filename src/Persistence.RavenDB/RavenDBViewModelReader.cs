@@ -6,43 +6,52 @@ namespace CR.ViewModels.Persistence.RavenDB
 {
     using System;
     using System.Linq;
-    using CR.ViewModels.Core;
+    using Core;
     using Raven.Client;
 
+    /// <summary>
+    /// A RavenDB implementation of the <see cref="IViewModelReader"/> interface.
+    /// This implementation allows for retrieving View Models that have been stored in RavenDB.
+    /// </summary>
     public class RavenDBViewModelReader : IViewModelReader
     {
         private readonly IDocumentStore _docStore;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="RavenDBViewModelReader"/> class.
+        /// </summary>
+        /// <param name="store">The document store that should be used for the <see cref="RavenDBViewModelReader"/>.</param>
         public RavenDBViewModelReader(IDocumentStore store)
         {
             _docStore = store;
         }
 
+        /// <inheritdoc />
         public TEntity GetByKey<TEntity>(string key)
             where TEntity : class
         {
             if (key == null)
             {
-                throw new ArgumentNullException("key");
+                throw new ArgumentNullException(nameof(key));
             }
 
             if (key == string.Empty)
             {
-                throw new ArgumentException("key must not be an empty string", "key");
+                throw new ArgumentException("key must not be an empty string", nameof(key));
             }
 
             using (var session = _docStore.OpenSession())
             {
-                var loaded = session.Load<TEntity>(MakeId<TEntity>(key));
+                var loaded = session.Load<TEntity>(RavenDBViewModelHelper.MakeID<TEntity>(key));
                 return loaded;
             }
         }
 
         /// <summary>
+        /// <inheritdoc />
         /// NOTE: RavenDB will only return 128 items by default, to force you to use skip/take paging
         /// </summary>
-        /// <typeparam name="TEntity">The type to query</typeparam>
-        /// <returns></returns>
+        /// <inheritdoc />
         public IQueryable<TEntity> Query<TEntity>()
             where TEntity : class
         {
@@ -50,11 +59,6 @@ namespace CR.ViewModels.Persistence.RavenDB
             {
                 return session.Query<TEntity>();
             }
-        }
-
-        private string MakeId<TEntity>(string key)
-        {
-            return typeof(TEntity).FullName + "/" + key;
         }
     }
 }
