@@ -13,10 +13,12 @@ namespace CR.ViewModels.Persistence.RavenDB
     using Raven.Abstractions.Exceptions;
     using Raven.Client;
 
+    /// <inheritdoc />
     /// <summary>
-    /// A RavenDB implementation of the <see cref="IViewModelWriter"/> interface.
+    /// A RavenDB implementation of the <see cref="T:CR.ViewModels.Core.IViewModelWriter" /> interface.
     /// This implementation allows for writing View Models to a RavenDB document store.
     /// </summary>
+    // ReSharper disable once InconsistentNaming
     public class RavenDBViewModelWriter : IViewModelWriter
     {
         private const int RavenPageSize = 512;
@@ -26,10 +28,7 @@ namespace CR.ViewModels.Persistence.RavenDB
         /// Initializes a new instance of the <see cref="RavenDBViewModelWriter"/> class.
         /// </summary>
         /// <param name="store">The document store that should be used for the <see cref="RavenDBViewModelWriter"/>.</param>
-        public RavenDBViewModelWriter(IDocumentStore store)
-        {
-            _docStore = store;
-        }
+        public RavenDBViewModelWriter(IDocumentStore store) => _docStore = store;
 
         /// <inheritdoc />
         public void Add<TEntity>(string key, TEntity entity)
@@ -48,7 +47,7 @@ namespace CR.ViewModels.Persistence.RavenDB
             using (var session = _docStore.OpenSession())
             {
                 session.Advanced.UseOptimisticConcurrency = true;
-                session.Store(entity, RavenDBViewModelHelper.MakeID<TEntity>(key));
+                session.Store(entity, RavenDbViewModelHelper.MakeId<TEntity>(key));
                 try
                 {
                     session.SaveChanges();
@@ -81,7 +80,7 @@ namespace CR.ViewModels.Persistence.RavenDB
 
             using (var session = _docStore.OpenSession())
             {
-                var entity = session.Load<TEntity>(RavenDBViewModelHelper.MakeID<TEntity>(key));
+                var entity = session.Load<TEntity>(RavenDbViewModelHelper.MakeId<TEntity>(key));
 
                 if (entity == null)
                 {
@@ -110,7 +109,7 @@ namespace CR.ViewModels.Persistence.RavenDB
             using (var session = _docStore.OpenSession())
             {
                 List<TEntity> resultChunk;
-                int resultsToSkip = 0;
+                var resultsToSkip = 0;
 
                 do
                 {
@@ -144,7 +143,7 @@ namespace CR.ViewModels.Persistence.RavenDB
 
             using (var session = _docStore.OpenSession())
             {
-                var toDelete = session.Load<TEntity>(RavenDBViewModelHelper.MakeID<TEntity>(key));
+                var toDelete = session.Load<TEntity>(RavenDbViewModelHelper.MakeId<TEntity>(key));
 
                 if (toDelete == null)
                 {
@@ -168,7 +167,7 @@ namespace CR.ViewModels.Persistence.RavenDB
             using (var session = _docStore.OpenSession())
             {
                 List<TEntity> resultChunk;
-                int resultsToSkip = 0;
+                var resultsToSkip = 0;
 
                 do
                 {

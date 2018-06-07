@@ -7,8 +7,9 @@ namespace CR.ViewModels.Core.Exceptions
     using System;
     using System.Runtime.Serialization;
 
+    /// <inheritdoc />
     /// <summary>
-    /// Represents an error that occurs when an <see cref="IViewModelWriter"/> attempts to update or delete a View Model
+    /// Represents an error that occurs when an <see cref="T:CR.ViewModels.Core.IViewModelWriter" /> attempts to update or delete a View Model
     /// with a key that does not match an existing key in the specified view model storage implementation.
     /// </summary>
     [Serializable]
@@ -21,12 +22,14 @@ namespace CR.ViewModels.Core.Exceptions
         }
 
         /// <inheritdoc />
+        // ReSharper disable once UnusedMember.Global
         public EntityNotFoundException(string message)
             : base(message)
         {
         }
 
         /// <inheritdoc />
+        // ReSharper disable once UnusedMember.Global
         public EntityNotFoundException(string message, Exception inner)
             : base(message, inner)
         {

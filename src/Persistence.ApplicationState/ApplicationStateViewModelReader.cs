@@ -9,8 +9,9 @@ namespace CR.ViewModels.Persistence.ApplicationState
     using System.Web;
     using Core;
 
+    /// <inheritdoc />
     /// <summary>
-    /// A implementation of the <see cref="IViewModelReader"/> interface that uses
+    /// A implementation of the <see cref="T:CR.ViewModels.Core.IViewModelReader" /> interface that uses
     /// HttpApplicationState from System.Web to retrieve view models.
     /// </summary>
     public class ApplicationStateViewModelReader : IViewModelReader

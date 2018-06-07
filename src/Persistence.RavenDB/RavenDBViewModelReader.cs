@@ -9,10 +9,12 @@ namespace CR.ViewModels.Persistence.RavenDB
     using Core;
     using Raven.Client;
 
+    /// <inheritdoc />
     /// <summary>
-    /// A RavenDB implementation of the <see cref="IViewModelReader"/> interface.
+    /// A RavenDB implementation of the <see cref="T:CR.ViewModels.Core.IViewModelReader" /> interface.
     /// This implementation allows for retrieving View Models that have been stored in RavenDB.
     /// </summary>
+    // ReSharper disable once InconsistentNaming
     public class RavenDBViewModelReader : IViewModelReader
     {
         private readonly IDocumentStore _docStore;
@@ -42,7 +44,7 @@ namespace CR.ViewModels.Persistence.RavenDB
 
             using (var session = _docStore.OpenSession())
             {
-                var loaded = session.Load<TEntity>(RavenDBViewModelHelper.MakeID<TEntity>(key));
+                var loaded = session.Load<TEntity>(RavenDbViewModelHelper.MakeId<TEntity>(key));
                 return loaded;
             }
         }
