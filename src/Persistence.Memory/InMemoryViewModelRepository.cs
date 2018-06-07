@@ -21,12 +21,9 @@ namespace CR.ViewModels.Persistence.Memory
     public class InMemoryViewModelRepository : IViewModelReader, IViewModelWriter
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="InMemoryViewModelRepository"/> class.
+        /// Initializes a new instance of the <see cref="InMemoryViewModelRepository"/> class which reads view models from, and writes them to, a .Net ConcurrentDictionary stored in memory.
         /// </summary>
-        public InMemoryViewModelRepository()
-        {
-            EntityCollections = new ConcurrentDictionary<Type, object>();
-        }
+        public InMemoryViewModelRepository() => EntityCollections = new ConcurrentDictionary<Type, object>();
 
         private ConcurrentDictionary<Type, object> EntityCollections { get; }
 
@@ -36,16 +33,15 @@ namespace CR.ViewModels.Persistence.Memory
         {
             if (key == null)
             {
-                throw new ArgumentNullException(nameof(key));
+                throw new ArgumentNullException(nameof(key), "Key must not be null.");
             }
 
             if (key == string.Empty)
             {
-                throw new ArgumentException("key must not be an empty string", nameof(key));
+                throw new ArgumentException("Key must not be an empty string.", nameof(key));
             }
 
             var entities = GetEntities<TEntity>();
-
             return entities.TryGetValue(key, out var result) ? result : null;
         }
 
@@ -61,14 +57,20 @@ namespace CR.ViewModels.Persistence.Memory
         public void Add<TEntity>(string key, TEntity entity)
             where TEntity : class
         {
-            var entities =
-                (ConcurrentDictionary<string, TEntity>)EntityCollections.GetOrAdd(
-                    typeof(TEntity),
-                    new ConcurrentDictionary<string, TEntity>());
+            if (key == null)
+            {
+                throw new ArgumentNullException(nameof(key), "Key must not be null.");
+            }
 
+            if (key == string.Empty)
+            {
+                throw new ArgumentException("Key must not be an empty string.", nameof(key));
+            }
+
+            var entities = (ConcurrentDictionary<string, TEntity>)EntityCollections.GetOrAdd(typeof(TEntity), new ConcurrentDictionary<string, TEntity>());
             if (!entities.TryAdd(key, entity))
             {
-                throw new DuplicateKeyException("An entity with this key has already been added");
+                throw new DuplicateKeyException("An entity with this key has already been added.", key);
             }
         }
 
@@ -78,28 +80,27 @@ namespace CR.ViewModels.Persistence.Memory
         {
             if (key == null)
             {
-                throw new ArgumentNullException(nameof(key));
+                throw new ArgumentNullException(nameof(key), "Key must not be null.");
             }
 
             if (key == string.Empty)
             {
-                throw new ArgumentException("key must not be an empty string", nameof(key));
+                throw new ArgumentException("Key must not be an empty string.", nameof(key));
             }
 
             if (update == null)
             {
-                throw new ArgumentNullException(nameof(update));
+                throw new ArgumentNullException(nameof(update), "The Update Action cannot be null.");
             }
 
             var entities = GetEntities<TEntity>();
-
             if (entities.TryGetValue(key, out var entity))
             {
                 update(entity);
             }
             else
             {
-                throw new EntityNotFoundException();
+                throw new EntityNotFoundException("The provided key for the View Model to update was not found in the View Model storage.", key);
             }
         }
 
@@ -109,17 +110,16 @@ namespace CR.ViewModels.Persistence.Memory
         {
             if (predicate == null)
             {
-                throw new ArgumentNullException(nameof(predicate));
+                throw new ArgumentNullException(nameof(predicate), "The Update Predicate cannot be null.");
             }
 
             if (update == null)
             {
-                throw new ArgumentNullException(nameof(update));
+                throw new ArgumentNullException(nameof(update), "The Update Action cannot be null.");
             }
 
             var entities = GetEntities<TEntity>();
             var toUpdate = entities.Values.Where(predicate.Compile()).ToList();
-
             foreach (var ent in toUpdate)
             {
                 update(ent);
@@ -132,18 +132,18 @@ namespace CR.ViewModels.Persistence.Memory
         {
             if (key == null)
             {
-                throw new ArgumentNullException(nameof(key));
+                throw new ArgumentNullException(nameof(key), "Key must not be null.");
             }
 
             if (key == string.Empty)
             {
-                throw new ArgumentException("key must not be an empty string", nameof(key));
+                throw new ArgumentException("Key must not be an empty string.", nameof(key));
             }
 
             var entities = GetEntities<TEntity>();
             if (!entities.TryRemove(key, out _))
             {
-                throw new EntityNotFoundException();
+                throw new EntityNotFoundException(key);
             }
         }
 
@@ -153,12 +153,11 @@ namespace CR.ViewModels.Persistence.Memory
         {
             if (predicate == null)
             {
-                throw new ArgumentNullException(nameof(predicate));
+                throw new ArgumentNullException(nameof(predicate), "The Deletion Predicate cannot be null.");
             }
 
             var entities = GetEntities<TEntity>();
             var toDelete = entities.Where(e => predicate.Compile()(e.Value)).ToList();
-
             foreach (var ent in toDelete)
             {
                 entities.TryRemove(ent.Key, out _);

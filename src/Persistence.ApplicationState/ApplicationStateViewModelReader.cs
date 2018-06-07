@@ -17,13 +17,10 @@ namespace CR.ViewModels.Persistence.ApplicationState
     public class ApplicationStateViewModelReader : IViewModelReader
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="ApplicationStateViewModelReader"/> class.
+        /// Initializes a new instance of the <see cref="ApplicationStateViewModelReader"/> class, using a provided <see cref="HttpApplicationStateBase"/> to access view models.
         /// </summary>
-        /// <param name="appState">The application state where the view models should be retrieved from.</param>
-        public ApplicationStateViewModelReader(HttpApplicationStateBase appState)
-        {
-            AppState = appState;
-        }
+        /// <param name="appState">The application state the view models should be retrieved from.</param>
+        public ApplicationStateViewModelReader(HttpApplicationStateBase appState) => AppState = appState;
 
         private HttpApplicationStateBase AppState { get; }
 
@@ -33,25 +30,19 @@ namespace CR.ViewModels.Persistence.ApplicationState
         {
             if (key == null)
             {
-                throw new ArgumentNullException(nameof(key));
+                throw new ArgumentNullException(nameof(key), "Key must not be null.");
             }
 
             if (key == string.Empty)
             {
-                throw new ArgumentException("key must not be an empty string", nameof(key));
+                throw new ArgumentException("Key must not be an empty string.", nameof(key));
             }
 
-            var entities = AppState.GetEntities<TEntity>();
-
-            return entities.TryGetValue(key, out var result) ? result : null;
+            return AppState.GetEntities<TEntity>().TryGetValue(key, out var result) ? result : null;
         }
 
         /// <inheritdoc />
         public IQueryable<TEntity> Query<TEntity>()
-            where TEntity : class
-        {
-            var entities = AppState.GetEntities<TEntity>();
-            return entities.Values.AsQueryable();
-        }
+            where TEntity : class => AppState.GetEntities<TEntity>().Values.AsQueryable();
     }
 }

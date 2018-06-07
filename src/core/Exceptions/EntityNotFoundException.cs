@@ -17,31 +17,26 @@ namespace CR.ViewModels.Core.Exceptions
     {
 #pragma warning disable SA1648 // inheritdoc should be used with inheriting class - disabled due to missing implementation for construtors.
         /// <inheritdoc />
-        public EntityNotFoundException()
-        {
-        }
+        public EntityNotFoundException(string key) => Key = key;
 
         /// <inheritdoc />
         // ReSharper disable once UnusedMember.Global
-        public EntityNotFoundException(string message)
-            : base(message)
-        {
-        }
+        public EntityNotFoundException(string message, string key)
+            : base(message) => Key = key;
 
         /// <inheritdoc />
         // ReSharper disable once UnusedMember.Global
-        public EntityNotFoundException(string message, Exception inner)
-            : base(message, inner)
-        {
-        }
+        public EntityNotFoundException(string message, Exception inner, string key)
+            : base(message, inner) => Key = key;
 
         /// <inheritdoc />
-        protected EntityNotFoundException(
-            SerializationInfo info,
-            StreamingContext context)
-            : base(info, context)
-        {
-        }
+        protected EntityNotFoundException(SerializationInfo info, StreamingContext context, string key)
+            : base(info, context) => Key = key;
 #pragma warning restore SA1648
+
+        /// <summary>
+        /// Gets the key which was not present in the view model storage implementation.
+        /// </summary>
+        public string Key { get; }
     }
 }

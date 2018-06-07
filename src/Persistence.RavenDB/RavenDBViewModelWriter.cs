@@ -15,20 +15,20 @@ namespace CR.ViewModels.Persistence.RavenDB
 
     /// <inheritdoc />
     /// <summary>
-    /// A RavenDB implementation of the <see cref="T:CR.ViewModels.Core.IViewModelWriter" /> interface.
-    /// This implementation allows for writing View Models to a RavenDB document store.
+    /// A RavenDB implementation of the <see cref="T:CR.ViewModels.Core.IViewModelWriter" /> interface, which allows for writing View Models to a RavenDB document store.
     /// </summary>
     // ReSharper disable once InconsistentNaming
     public class RavenDBViewModelWriter : IViewModelWriter
     {
         private const int RavenPageSize = 512;
-        private readonly IDocumentStore _docStore;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="RavenDBViewModelWriter"/> class.
+        /// Initializes a new instance of the <see cref="RavenDBViewModelWriter"/> class which writes View Models to the provided <see cref="RavenDBViewModelWriter"/>.
         /// </summary>
         /// <param name="store">The document store that should be used for the <see cref="RavenDBViewModelWriter"/>.</param>
-        public RavenDBViewModelWriter(IDocumentStore store) => _docStore = store;
+        public RavenDBViewModelWriter(IDocumentStore store) => DocStore = store;
+
+        private IDocumentStore DocStore { get; }
 
         /// <inheritdoc />
         public void Add<TEntity>(string key, TEntity entity)
@@ -36,15 +36,15 @@ namespace CR.ViewModels.Persistence.RavenDB
         {
             if (key == null)
             {
-                throw new ArgumentNullException(nameof(key));
+                throw new ArgumentNullException(nameof(key), "Key must not be null.");
             }
 
             if (key == string.Empty)
             {
-                throw new ArgumentException("key must not be an empty string", nameof(key));
+                throw new ArgumentException("Key must not be an empty string.", nameof(key));
             }
 
-            using (var session = _docStore.OpenSession())
+            using (var session = DocStore.OpenSession())
             {
                 session.Advanced.UseOptimisticConcurrency = true;
                 session.Store(entity, RavenDbViewModelHelper.MakeId<TEntity>(key));
@@ -54,7 +54,7 @@ namespace CR.ViewModels.Persistence.RavenDB
                 }
                 catch (ConcurrencyException ex)
                 {
-                    throw new DuplicateKeyException($"Attempt to insert key \'{key}\' failed", ex);
+                    throw new DuplicateKeyException($"Attempt to insert key '{key}' failed.", ex, key);
                 }
             }
         }
@@ -65,26 +65,25 @@ namespace CR.ViewModels.Persistence.RavenDB
         {
             if (key == null)
             {
-                throw new ArgumentNullException(nameof(key));
+                throw new ArgumentNullException(nameof(key), "Key must not be null.");
             }
 
             if (key == string.Empty)
             {
-                throw new ArgumentException("key must not be an empty string", nameof(key));
+                throw new ArgumentException("Key must not be an empty string.", nameof(key));
             }
 
             if (update == null)
             {
-                throw new ArgumentNullException(nameof(update));
+                throw new ArgumentNullException(nameof(update), "The Update Action cannot be null.");
             }
 
-            using (var session = _docStore.OpenSession())
+            using (var session = DocStore.OpenSession())
             {
                 var entity = session.Load<TEntity>(RavenDbViewModelHelper.MakeId<TEntity>(key));
-
                 if (entity == null)
                 {
-                    throw new EntityNotFoundException();
+                    throw new EntityNotFoundException("The provided key to update was not found in the view model storage.", key);
                 }
 
                 update(entity);
@@ -98,15 +97,15 @@ namespace CR.ViewModels.Persistence.RavenDB
         {
             if (predicate == null)
             {
-                throw new ArgumentNullException(nameof(predicate));
+                throw new ArgumentNullException(nameof(predicate), "The Update Predicate cannot be null.");
             }
 
             if (update == null)
             {
-                throw new ArgumentNullException(nameof(update));
+                throw new ArgumentNullException(nameof(update), "The Update Action cannot be null.");
             }
 
-            using (var session = _docStore.OpenSession())
+            using (var session = DocStore.OpenSession())
             {
                 List<TEntity> resultChunk;
                 var resultsToSkip = 0;
@@ -122,7 +121,6 @@ namespace CR.ViewModels.Persistence.RavenDB
                     }
                 }
                 while (resultChunk.Count > 0);
-
                 session.SaveChanges();
             }
         }
@@ -133,21 +131,20 @@ namespace CR.ViewModels.Persistence.RavenDB
         {
             if (key == null)
             {
-                throw new ArgumentNullException(nameof(key));
+                throw new ArgumentNullException(nameof(key), "Key must not be null.");
             }
 
             if (key == string.Empty)
             {
-                throw new ArgumentException("key must not be an empty string", nameof(key));
+                throw new ArgumentException("Key must not be an empty string.", nameof(key));
             }
 
-            using (var session = _docStore.OpenSession())
+            using (var session = DocStore.OpenSession())
             {
                 var toDelete = session.Load<TEntity>(RavenDbViewModelHelper.MakeId<TEntity>(key));
-
                 if (toDelete == null)
                 {
-                    throw new EntityNotFoundException();
+                    throw new EntityNotFoundException(key);
                 }
 
                 session.Delete(toDelete);
@@ -161,10 +158,10 @@ namespace CR.ViewModels.Persistence.RavenDB
         {
             if (predicate == null)
             {
-                throw new ArgumentNullException(nameof(predicate));
+                throw new ArgumentNullException(nameof(predicate), "The Deletion Predicate cannot be null.");
             }
 
-            using (var session = _docStore.OpenSession())
+            using (var session = DocStore.OpenSession())
             {
                 List<TEntity> resultChunk;
                 var resultsToSkip = 0;
@@ -180,7 +177,6 @@ namespace CR.ViewModels.Persistence.RavenDB
                     }
                 }
                 while (resultChunk.Count > 0);
-
                 session.SaveChanges();
             }
         }

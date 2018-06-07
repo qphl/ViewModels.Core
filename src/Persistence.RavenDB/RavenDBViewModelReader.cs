@@ -17,16 +17,13 @@ namespace CR.ViewModels.Persistence.RavenDB
     // ReSharper disable once InconsistentNaming
     public class RavenDBViewModelReader : IViewModelReader
     {
-        private readonly IDocumentStore _docStore;
-
         /// <summary>
-        /// Initializes a new instance of the <see cref="RavenDBViewModelReader"/> class.
+        /// Initializes a new instance of the <see cref="RavenDBViewModelReader"/> class which uses a <see cref="RavenDBViewModelReader"/> to read View Models.
         /// </summary>
         /// <param name="store">The document store that should be used for the <see cref="RavenDBViewModelReader"/>.</param>
-        public RavenDBViewModelReader(IDocumentStore store)
-        {
-            _docStore = store;
-        }
+        public RavenDBViewModelReader(IDocumentStore store) => DocStore = store;
+
+        private IDocumentStore DocStore { get; }
 
         /// <inheritdoc />
         public TEntity GetByKey<TEntity>(string key)
@@ -34,30 +31,28 @@ namespace CR.ViewModels.Persistence.RavenDB
         {
             if (key == null)
             {
-                throw new ArgumentNullException(nameof(key));
+                throw new ArgumentNullException(nameof(key), "Key must not be null.");
             }
 
             if (key == string.Empty)
             {
-                throw new ArgumentException("key must not be an empty string", nameof(key));
+                throw new ArgumentException("Key must not be an empty string.", nameof(key));
             }
 
-            using (var session = _docStore.OpenSession())
+            using (var session = DocStore.OpenSession())
             {
-                var loaded = session.Load<TEntity>(RavenDbViewModelHelper.MakeId<TEntity>(key));
-                return loaded;
+                return session.Load<TEntity>(RavenDbViewModelHelper.MakeId<TEntity>(key));
             }
         }
 
-        /// <summary>
         /// <inheritdoc />
-        /// NOTE: RavenDB will only return 128 items by default, to force you to use skip/take paging
-        /// </summary>
-        /// <inheritdoc />
+        /// <remarks>
+        /// RavenDB will only return 128 items by default, to force you to use skip/take paging.
+        /// </remarks>
         public IQueryable<TEntity> Query<TEntity>()
             where TEntity : class
         {
-            using (var session = _docStore.OpenSession())
+            using (var session = DocStore.OpenSession())
             {
                 return session.Query<TEntity>();
             }
