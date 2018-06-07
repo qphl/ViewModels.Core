@@ -464,9 +464,9 @@ namespace CR.ViewModels.Tests
             var expectedList = new List<TestEntity1>();
             for (var i = 0; i < LargeListSize; i = i + 2)
             {
-                var matchEntity = new TestEntity1("id" + i, "match");
-                var expectedEntity = new TestEntity1("id" + i, "new");
-                var nomatchEntity = new TestEntity1("id" + (i + 1), "no match");
+                var matchEntity = new TestEntity1($"id{i}", "match");
+                var expectedEntity = new TestEntity1($"id{i}", "new");
+                var nomatchEntity = new TestEntity1($"id{i + 1}", "no match");
                 Writer.Add(matchEntity.Identifier, matchEntity);
                 Writer.Add(nomatchEntity.Identifier, nomatchEntity);
                 expectedList.Add(expectedEntity);
@@ -479,7 +479,7 @@ namespace CR.ViewModels.Tests
             foreach (var expected in expectedList)
             {
                 var actual = Reader.GetByKey<TestEntity1>(expected.Identifier);
-                Assert.AreEqual(expected, actual, "comparison failed for item " + expected.Identifier);
+                Assert.AreEqual(expected, actual, $"comparison failed for item {expected.Identifier}");
             }
         }
 
@@ -489,9 +489,9 @@ namespace CR.ViewModels.Tests
             var expectedList = new List<TestEntity1>();
             for (var i = 0; i < LargeListSize; i = i + 2)
             {
-                var matchEntity = new TestEntity1("id" + i, "match");
-                var expectedEntity = new TestEntity1("id" + i, "new");
-                var nomatchEntity = new TestEntity1("id" + (i + 1), "no match");
+                var matchEntity = new TestEntity1($"id{i}", "match");
+                var expectedEntity = new TestEntity1($"id{i}", "new");
+                var nomatchEntity = new TestEntity1($"id{i + 1}", "no match");
                 Writer.Add(matchEntity.Identifier, matchEntity);
                 Writer.Add(nomatchEntity.Identifier, nomatchEntity);
                 expectedList.Add(expectedEntity);
@@ -513,9 +513,9 @@ namespace CR.ViewModels.Tests
 
             for (var i = 0; i < LargeListSize; i = i + 2)
             {
-                var matchEntity = new TestEntity1("id" + i, "match");
-                var expectedEntity = new TestEntity1("id" + i, "match");
-                var nomatchEntity = new TestEntity1("id" + (i + 1), "no match");
+                var matchEntity = new TestEntity1($"id{i}", "match");
+                var expectedEntity = new TestEntity1($"id{i}", "match");
+                var nomatchEntity = new TestEntity1($"id{i + 1}", "no match");
                 Writer.Add(matchEntity.Identifier, matchEntity);
                 Writer.Add(nomatchEntity.Identifier, nomatchEntity);
                 expectedList.Add(expectedEntity);

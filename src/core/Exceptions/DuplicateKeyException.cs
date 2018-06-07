@@ -29,6 +29,7 @@ namespace CR.ViewModels.Core.Exceptions
             : base(message, inner) => Key = key;
 
         /// <inheritdoc />
+        // ReSharper disable once UnusedMember.Global
         protected DuplicateKeyException(SerializationInfo info, StreamingContext context, string key)
             : base(info, context) => Key = key;
 #pragma warning restore SA1648 // inheritdoc should be used with inheriting class

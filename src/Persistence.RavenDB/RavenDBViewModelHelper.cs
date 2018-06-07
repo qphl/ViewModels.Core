@@ -15,6 +15,6 @@ namespace CR.ViewModels.Persistence.RavenDB
         /// <typeparam name="TEntity">The type of the View Model.</typeparam>
         /// <param name="key">The key of the view model.</param>
         /// <returns>The ID of the RavenDB document.</returns>
-        internal static string MakeId<TEntity>(string key) => typeof(TEntity).FullName + "/" + key;
+        internal static string MakeId<TEntity>(string key) => $"{typeof(TEntity).FullName}/{key}";
     }
 }

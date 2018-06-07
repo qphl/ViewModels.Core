@@ -30,6 +30,7 @@ namespace CR.ViewModels.Core.Exceptions
             : base(message, inner) => Key = key;
 
         /// <inheritdoc />
+        // ReSharper disable once UnusedMember.Global
         protected EntityNotFoundException(SerializationInfo info, StreamingContext context, string key)
             : base(info, context) => Key = key;
 #pragma warning restore SA1648
