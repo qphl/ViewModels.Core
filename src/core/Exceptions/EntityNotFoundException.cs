@@ -9,7 +9,7 @@ namespace CR.ViewModels.Core.Exceptions
 
     /// <inheritdoc />
     /// <summary>
-    /// Represents an error that occurs when an <see cref="T:CR.ViewModels.Core.IViewModelWriter" /> attempts to update or delete a View Model
+    /// Represents an error that occurs when an <see cref="IViewModelWriter" /> attempts to update or delete a View Model
     /// with a key that does not match an existing key in the specified view model storage implementation.
     /// </summary>
     [Serializable]

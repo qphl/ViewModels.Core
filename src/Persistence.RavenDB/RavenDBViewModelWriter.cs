@@ -15,7 +15,7 @@ namespace CR.ViewModels.Persistence.RavenDB
 
     /// <inheritdoc />
     /// <summary>
-    /// A RavenDB implementation of the <see cref="T:CR.ViewModels.Core.IViewModelWriter" /> interface, which allows for writing View Models to a RavenDB document store.
+    /// A RavenDB implementation of the <see cref="IViewModelWriter" /> interface, which allows for writing View Models to a RavenDB document store.
     /// </summary>
     // ReSharper disable once InconsistentNaming
     public class RavenDBViewModelWriter : IViewModelWriter

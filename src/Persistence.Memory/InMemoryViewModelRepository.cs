@@ -15,7 +15,7 @@ namespace CR.ViewModels.Persistence.Memory
     /// <inheritdoc cref="IViewModelWriter"/>
     /// <summary>
     /// A view model repository that uses an internal ConcurrentDictionary to both store and retrieve view models.
-    /// Implements both <see cref="T:CR.ViewModels.Core.IViewModelReader" /> and <see cref="T:CR.ViewModels.Core.IViewModelWriter" />.
+    /// Implements both <see cref="IViewModelReader" /> and <see cref="IViewModelWriter" />.
     /// </summary>
     [Serializable]
     public class InMemoryViewModelRepository : IViewModelReader, IViewModelWriter

@@ -11,7 +11,7 @@ namespace CR.ViewModels.Persistence.RavenDB
 
     /// <inheritdoc />
     /// <summary>
-    /// A RavenDB implementation of the <see cref="T:CR.ViewModels.Core.IViewModelReader" /> interface.
+    /// A RavenDB implementation of the <see cref="IViewModelReader" /> interface.
     /// This implementation allows for retrieving View Models that have been stored in RavenDB.
     /// </summary>
     // ReSharper disable once InconsistentNaming
