@@ -41,7 +41,7 @@ namespace CR.ViewModels.Persistence.RavenDB
 
             using (var session = DocStore.OpenSession())
             {
-                return session.Load<TEntity>(RavenDbViewModelHelper.MakeId<TEntity>(key));
+                return session.Load<TEntity>(RavenDBViewModelHelper.MakeId<TEntity>(key));
             }
         }
 

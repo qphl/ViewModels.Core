@@ -7,7 +7,8 @@ namespace CR.ViewModels.Persistence.RavenDB
     /// <summary>
     /// Helper class used for code shared between <see cref="RavenDBViewModelReader"/> and <see cref="RavenDBViewModelWriter"/>.
     /// </summary>
-    internal static class RavenDbViewModelHelper
+    // ReSharper disable once InconsistentNaming
+    internal static class RavenDBViewModelHelper
     {
         /// <summary>
         /// Helper method used to generate the ID of the RavenDB document that a view model of type TEntity with specified key should be stored.
