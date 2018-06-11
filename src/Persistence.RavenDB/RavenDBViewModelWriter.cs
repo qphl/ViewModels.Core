@@ -47,7 +47,7 @@ namespace CR.ViewModels.Persistence.RavenDB
             using (var session = DocStore.OpenSession())
             {
                 session.Advanced.UseOptimisticConcurrency = true;
-                session.Store(entity, RavenDBViewModelHelper.MakeId<TEntity>(key));
+                session.Store(entity, RavenDBViewModelHelper.MakeID<TEntity>(key));
                 try
                 {
                     session.SaveChanges();
@@ -80,7 +80,7 @@ namespace CR.ViewModels.Persistence.RavenDB
 
             using (var session = DocStore.OpenSession())
             {
-                var entity = session.Load<TEntity>(RavenDBViewModelHelper.MakeId<TEntity>(key));
+                var entity = session.Load<TEntity>(RavenDBViewModelHelper.MakeID<TEntity>(key));
                 if (entity == null)
                 {
                     throw new EntityNotFoundException("The provided key to update was not found in the view model storage.", key);
@@ -141,7 +141,7 @@ namespace CR.ViewModels.Persistence.RavenDB
 
             using (var session = DocStore.OpenSession())
             {
-                var toDelete = session.Load<TEntity>(RavenDBViewModelHelper.MakeId<TEntity>(key));
+                var toDelete = session.Load<TEntity>(RavenDBViewModelHelper.MakeID<TEntity>(key));
                 if (toDelete == null)
                 {
                     throw new EntityNotFoundException(key);
