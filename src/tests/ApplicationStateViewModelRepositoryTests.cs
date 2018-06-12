@@ -1,13 +1,21 @@
-﻿using System;
-using System.Web;
-using CR.ViewModels.Persistence.ApplicationState;
-using NUnit.Framework;
+﻿// <copyright file="ApplicationStateViewModelRepositoryTests.cs" company="Cognisant">
+// Copyright (c) Cognisant. All rights reserved.
+// </copyright>
 
 namespace CR.ViewModels.Tests
 {
+    using System;
+    using System.Web;
+    using NUnit.Framework;
+    using Persistence.ApplicationState;
+
+    /// <inheritdoc />
     [TestFixture]
-    public class ApplicationStateViewModelRepositoryTests : ViewModelRepositoryTestFixture
+    internal sealed class ApplicationStateViewModelRepositoryTests : ViewModelRepositoryTestFixture
     {
+        /// <summary>
+        /// Setup for the test fixture.
+        /// </summary>
         [SetUp]
         public void SetUp()
         {

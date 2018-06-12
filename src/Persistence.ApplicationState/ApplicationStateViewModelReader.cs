@@ -1,45 +1,48 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using CR.ViewModels.Core;
+﻿// <copyright file="ApplicationStateViewModelReader.cs" company="Cognisant">
+// Copyright (c) Cognisant. All rights reserved.
+// </copyright>
 
 namespace CR.ViewModels.Persistence.ApplicationState
 {
+    using System;
+    using System.Linq;
+    using System.Web;
+    using Core;
+
+    /// <inheritdoc />
+    /// <summary>
+    /// A implementation of the <see cref="IViewModelReader" /> interface that uses
+    /// HttpApplicationState from System.Web to retrieve view models.
+    /// </summary>
     public class ApplicationStateViewModelReader : IViewModelReader
     {
-        private HttpApplicationStateBase AppState { get; set; }
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ApplicationStateViewModelReader"/> class, using a provided <see cref="HttpApplicationStateBase"/> to access view models.
+        /// </summary>
+        /// <param name="appState">The application state the view models should be retrieved from.</param>
+        public ApplicationStateViewModelReader(HttpApplicationStateBase appState) => AppState = appState;
 
-        public ApplicationStateViewModelReader(HttpApplicationStateBase appState)
-        {
-            AppState = appState;
-        }
+        private HttpApplicationStateBase AppState { get; }
 
-        public TEntity GetByKey<TEntity>(string key) where TEntity : class
+        /// <inheritdoc />
+        public TEntity GetByKey<TEntity>(string key)
+            where TEntity : class
         {
             if (key == null)
-                throw new ArgumentNullException("key");
+            {
+                throw new ArgumentNullException(nameof(key), "Key must not be null.");
+            }
 
-            if (key == "")
-                throw new ArgumentException("key must not be an empty string", "key");
+            if (key == string.Empty)
+            {
+                throw new ArgumentException("Key must not be an empty string.", nameof(key));
+            }
 
-            var entities = GetEntities<TEntity>();
-
-            TEntity result;
-            return entities.TryGetValue(key, out result) ? result : null;
+            return AppState.GetEntities<TEntity>().TryGetValue(key, out var result) ? result : null;
         }
 
-        public IQueryable<TEntity> Query<TEntity>() where TEntity : class
-        {
-            var entities = GetEntities<TEntity>();
-            return entities.Values.AsQueryable();
-        }
-
-        private Dictionary<String, TEntity> GetEntities<TEntity>()
-        {
-            var appStateKey = typeof(TEntity).FullName;
-            var entities = AppState[appStateKey];
-            return entities == null ? new Dictionary<string, TEntity>() : (Dictionary<string, TEntity>)entities; 
-        }
+        /// <inheritdoc />
+        public IQueryable<TEntity> Query<TEntity>()
+            where TEntity : class => AppState.GetEntities<TEntity>().Values.AsQueryable();
     }
 }
