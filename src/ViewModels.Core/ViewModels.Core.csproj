@@ -1,0 +1,35 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <AssemblyName>CR.ViewModels.Core</AssemblyName>
+    <RootNamespace>CR.ViewModels.Core</RootNamespace>
+    <PackageId>CR.ViewModels.Core</PackageId>
+    <Authors>Cognisant Research</Authors>
+    <Company>Cognisant Research</Company>
+    <Product>CR.ViewModels</Product>
+    <Copyright>Cognisant Research 2018</Copyright>
+    <Description>A package containing .NET interfaces for reading/writing CQRS ViewModels in a generic way.</Description>
+    <PackageLicenseUrl>https://github.com/cognisant/ViewModels.Core/blob/master/LICENSE</PackageLicenseUrl>
+    <PackageProjectUrl>https://github.com/cognisant/ViewModels.Core</PackageProjectUrl>
+    <PackageIconUrl>https://github.com/cognisant/ViewModels.Core/blob/master/logo.png</PackageIconUrl>
+    <RepositoryUrl>https://github.com/cognisant/ViewModels.Core</RepositoryUrl>
+    <PackageTags>View Model, CQRS, RavenDB</PackageTags>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DocumentationFile>bin\Debug\netstandard2.0\Core.xml</DocumentationFile>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <WarningsAsErrors />
+    <DocumentationFile>bin\Release\netstandard2.0\Core.xml</DocumentationFile>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="CR.CodeStyle.CSharp.Full" Version="1.0.1" />
+    <PackageReference Include="StyleCop.Analyzers" Version="1.1.0-beta006" />
+  </ItemGroup>
+
+</Project>
