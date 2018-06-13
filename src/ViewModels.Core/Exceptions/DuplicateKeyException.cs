@@ -25,6 +25,7 @@ namespace CR.ViewModels.Core.Exceptions
             : base(message) => Key = key;
 
         /// <inheritdoc />
+        // ReSharper disable once UnusedMember.Global
         public DuplicateKeyException(string message, Exception inner, string key)
             : base(message, inner) => Key = key;
 

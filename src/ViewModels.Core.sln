@@ -3,17 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.27428.2037
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ViewModels.ApplicationState", "ViewModels.ApplicationState\ViewModels.ApplicationState.csproj", "{A4A3A5EF-3F85-47A5-A39C-DF936CAE60AC}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ViewModels.RavenDB", "ViewModels.RavenDB\ViewModels.RavenDB.csproj", "{B28BB5C0-B434-438C-8770-BBFF710A2708}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ViewModels.Core", "ViewModels.Core\ViewModels.Core.csproj", "{F270C246-201F-4289-BEBE-8E59BDF4F270}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ViewModels.Core.Tests", "ViewModels.Core.Tests\ViewModels.Core.Tests.csproj", "{FE6A9968-5435-4B52-BF53-FCCBFB947F9A}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ViewModels.RavenDB.Tests", "ViewModels.RavenDB.Tests\ViewModels.RavenDB.Tests.csproj", "{56CE25A6-B966-4880-A2A9-7399B40235D6}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ViewModels.ApplicationState.Tests", "ViewModels.ApplicationState.Tests\ViewModels.ApplicationState.Tests.csproj", "{FF7387B9-DE1A-4E47-8BEF-262D471B0B58}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,14 +13,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{A4A3A5EF-3F85-47A5-A39C-DF936CAE60AC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{A4A3A5EF-3F85-47A5-A39C-DF936CAE60AC}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{A4A3A5EF-3F85-47A5-A39C-DF936CAE60AC}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{A4A3A5EF-3F85-47A5-A39C-DF936CAE60AC}.Release|Any CPU.Build.0 = Release|Any CPU
-		{B28BB5C0-B434-438C-8770-BBFF710A2708}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{B28BB5C0-B434-438C-8770-BBFF710A2708}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{B28BB5C0-B434-438C-8770-BBFF710A2708}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{B28BB5C0-B434-438C-8770-BBFF710A2708}.Release|Any CPU.Build.0 = Release|Any CPU
 		{F270C246-201F-4289-BEBE-8E59BDF4F270}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{F270C246-201F-4289-BEBE-8E59BDF4F270}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F270C246-201F-4289-BEBE-8E59BDF4F270}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -37,14 +21,6 @@ Global
 		{FE6A9968-5435-4B52-BF53-FCCBFB947F9A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FE6A9968-5435-4B52-BF53-FCCBFB947F9A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FE6A9968-5435-4B52-BF53-FCCBFB947F9A}.Release|Any CPU.Build.0 = Release|Any CPU
-		{56CE25A6-B966-4880-A2A9-7399B40235D6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{56CE25A6-B966-4880-A2A9-7399B40235D6}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{56CE25A6-B966-4880-A2A9-7399B40235D6}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{56CE25A6-B966-4880-A2A9-7399B40235D6}.Release|Any CPU.Build.0 = Release|Any CPU
-		{FF7387B9-DE1A-4E47-8BEF-262D471B0B58}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{FF7387B9-DE1A-4E47-8BEF-262D471B0B58}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{FF7387B9-DE1A-4E47-8BEF-262D471B0B58}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{FF7387B9-DE1A-4E47-8BEF-262D471B0B58}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
