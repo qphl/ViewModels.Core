@@ -15,7 +15,7 @@
     <PackageIconUrl>https://github.com/cognisant/ViewModels.Core/blob/master/logo.png</PackageIconUrl>
     <RepositoryUrl>https://github.com/cognisant/ViewModels.Core</RepositoryUrl>
     <PackageTags>View Model, CQRS, RavenDB</PackageTags>
-    <PackageReleaseNotes>https://GitHub.com/Cognisant/ViewModels.Core/releases/tag/$(Version)</PackageReleaseNotes>
+    <PackageReleaseNotes>https://GitHub.com/Cognisant/ViewModels.Core/releases/tag/$(Tag)</PackageReleaseNotes>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
