@@ -19,13 +19,13 @@
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <DocumentationFile>bin\Debug\netstandard2.0\Core.xml</DocumentationFile>
+    <DocumentationFile>bin\Debug\netstandard2.0\CR.ViewModels.Core.xml</DocumentationFile>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
     <WarningsAsErrors />
-    <DocumentationFile>bin\Release\netstandard2.0\Core.xml</DocumentationFile>
+    <DocumentationFile>bin\Debug\netstandard2.0\CR.ViewModels.Core.xml</DocumentationFile>
   </PropertyGroup>
 
   <ItemGroup>
