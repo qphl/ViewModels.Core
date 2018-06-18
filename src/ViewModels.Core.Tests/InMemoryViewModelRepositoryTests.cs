@@ -2,10 +2,10 @@
 // Copyright (c) Cognisant. All rights reserved.
 // </copyright>
 
-namespace CR.ViewModels.Tests
+namespace ViewModels.Core.Tests
 {
+    using CR.ViewModels.Core;
     using NUnit.Framework;
-    using Persistence.Memory;
 
     /// <inheritdoc />
     [TestFixture]

@@ -2,7 +2,7 @@
 // Copyright (c) Cognisant. All rights reserved.
 // </copyright>
 
-namespace CR.ViewModels.Tests
+namespace ViewModels.Core.Tests
 {
     using System;
 

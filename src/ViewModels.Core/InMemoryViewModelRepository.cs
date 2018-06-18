@@ -2,14 +2,13 @@
 // Copyright (c) Cognisant. All rights reserved.
 // </copyright>
 
-namespace CR.ViewModels.Persistence.Memory
+namespace CR.ViewModels.Core
 {
     using System;
     using System.Collections.Concurrent;
     using System.Linq;
     using System.Linq.Expressions;
-    using Core;
-    using Core.Exceptions;
+    using Exceptions;
 
     /// <inheritdoc cref="IViewModelReader"/>
     /// <inheritdoc cref="IViewModelWriter"/>
