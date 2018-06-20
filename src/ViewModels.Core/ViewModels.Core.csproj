@@ -25,7 +25,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
     <WarningsAsErrors />
-    <DocumentationFile>bin\Debug\netstandard2.0\CR.ViewModels.Core.xml</DocumentationFile>
+    <DocumentationFile>bin\Release\netstandard2.0\CR.ViewModels.Core.xml</DocumentationFile>
   </PropertyGroup>
 
   <ItemGroup>
