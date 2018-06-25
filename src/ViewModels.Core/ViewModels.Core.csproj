@@ -13,7 +13,7 @@
     <Description>A package containing .NET interfaces for reading/writing CQRS ViewModels in a generic way.</Description>
     <PackageLicenseUrl>https://github.com/cognisant/ViewModels.Core/blob/master/LICENSE</PackageLicenseUrl>
     <PackageProjectUrl>https://github.com/cognisant/ViewModels.Core</PackageProjectUrl>
-    <PackageIconUrl>https://github.com/cognisant/ViewModels.Core/blob/master/logo.png</PackageIconUrl>
+    <PackageIconUrl>https://raw.githubusercontent.com/cognisant/ViewModels.Core/master/logo.png</PackageIconUrl>
     <RepositoryUrl>https://github.com/cognisant/ViewModels.Core</RepositoryUrl>
     <PackageTags>View Model, CQRS, RavenDB</PackageTags>
     <PackageReleaseNotes>https://GitHub.com/Cognisant/ViewModels.Core/releases/tag/$(Tag)</PackageReleaseNotes>
