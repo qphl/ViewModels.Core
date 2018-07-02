@@ -2,6 +2,8 @@
 // Copyright (c) Cognisant. All rights reserved.
 // </copyright>
 
+using System.Collections.Generic;
+
 namespace CR.ViewModels.Core
 {
     using System;
@@ -19,12 +21,17 @@ namespace CR.ViewModels.Core
     [Serializable]
     public class InMemoryViewModelRepository : IViewModelReader, IViewModelWriter
     {
+        private readonly ConcurrentDictionary<Type, object> _entityCollections;
+
         /// <summary>
         /// Initializes a new instance of the <see cref="InMemoryViewModelRepository"/> class which reads view models from, and writes them to, a .Net ConcurrentDictionary stored in memory.
         /// </summary>
-        public InMemoryViewModelRepository() => EntityCollections = new ConcurrentDictionary<Type, object>();
+        public InMemoryViewModelRepository() => _entityCollections = new ConcurrentDictionary<Type, object>();
 
-        private ConcurrentDictionary<Type, object> EntityCollections { get; }
+        /// <summary>
+        /// Gets the underlying dictionary which stores all of the entities in the <see cref="InMemoryViewModelRepository"/>.
+        /// </summary>
+        public IReadOnlyDictionary<Type, object> EntityCollections => _entityCollections;
 
         /// <inheritdoc />
         public TEntity GetByKey<TEntity>(string key)
@@ -66,7 +73,7 @@ namespace CR.ViewModels.Core
                 throw new ArgumentException("Key must not be an empty string.", nameof(key));
             }
 
-            var entities = (ConcurrentDictionary<string, TEntity>)EntityCollections.GetOrAdd(typeof(TEntity), new ConcurrentDictionary<string, TEntity>());
+            var entities = (ConcurrentDictionary<string, TEntity>)_entityCollections.GetOrAdd(typeof(TEntity), new ConcurrentDictionary<string, TEntity>());
             if (!entities.TryAdd(key, entity))
             {
                 throw new DuplicateKeyException("An entity with this key has already been added.", key);
@@ -165,7 +172,7 @@ namespace CR.ViewModels.Core
 
         private ConcurrentDictionary<string, TEntity> GetEntities<TEntity>()
         {
-            if (EntityCollections.TryGetValue(typeof(TEntity), out var typeDict))
+            if (_entityCollections.TryGetValue(typeof(TEntity), out var typeDict))
             {
                 return (ConcurrentDictionary<string, TEntity>)typeDict;
             }
