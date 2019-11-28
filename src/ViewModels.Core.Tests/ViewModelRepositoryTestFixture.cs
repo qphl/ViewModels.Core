@@ -1,5 +1,5 @@
-﻿// <copyright file="ViewModelRepositoryTestFixture.cs" company="Cognisant">
-// Copyright (c) Cognisant. All rights reserved.
+﻿// <copyright file="ViewModelRepositoryTestFixture.cs" company="Corsham Science">
+// Copyright (c) Corsham Science. All rights reserved.
 // </copyright>
 
 namespace ViewModels.Core.Tests
@@ -8,8 +8,8 @@ namespace ViewModels.Core.Tests
     using System.Collections.Generic;
     using System.Linq;
     using System.Linq.Expressions;
-    using CR.ViewModels.Core;
-    using CR.ViewModels.Core.Exceptions;
+    using CorshamScience.ViewModels.Core;
+    using CorshamScience.ViewModels.Core.Exceptions;
     using NUnit.Framework;
 
     /// <summary>

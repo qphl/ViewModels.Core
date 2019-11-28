@@ -1,15 +1,15 @@
-﻿// <copyright file="InMemoryViewModelRepository.cs" company="Cognisant">
-// Copyright (c) Cognisant. All rights reserved.
+﻿// <copyright file="InMemoryViewModelRepository.cs" company="Corsham Science">
+// Copyright (c) Corsham Science. All rights reserved.
 // </copyright>
 
-namespace CR.ViewModels.Core
+namespace CorshamScience.ViewModels.Core
 {
     using System;
     using System.Collections.Concurrent;
     using System.Collections.Generic;
     using System.Linq;
     using System.Linq.Expressions;
-    using Exceptions;
+    using CorshamScience.ViewModels.Core.Exceptions;
 
     /// <inheritdoc cref="IViewModelReader"/>
     /// <inheritdoc cref="IViewModelWriter"/>

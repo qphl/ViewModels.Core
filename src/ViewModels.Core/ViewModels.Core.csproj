@@ -3,36 +3,44 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
-    <AssemblyName>CR.ViewModels.Core</AssemblyName>
-    <RootNamespace>CR.ViewModels.Core</RootNamespace>
-    <PackageId>CR.ViewModels.Core</PackageId>
-    <Authors>Cognisant Research</Authors>
-    <Company>Cognisant Research</Company>
-    <Product>CR.ViewModels</Product>
-    <Copyright>Cognisant Research 2018</Copyright>
+    <AssemblyName>CorshamScience.ViewModels.Core</AssemblyName>
+    <RootNamespace>CorshamScience.ViewModels.Core</RootNamespace>
+    <PackageId>CorshamScience.ViewModels.Core</PackageId>
+    <Authors>Corsham Science</Authors>
+    <Company>Corsham Science</Company>
+    <Product>CorshamScience.ViewModels</Product>
+    <Copyright>Corsham Science 2019</Copyright>
     <Description>A package containing .NET interfaces for reading/writing CQRS ViewModels in a generic way.</Description>
-    <PackageLicenseUrl>https://github.com/cognisant/ViewModels.Core/blob/master/LICENSE</PackageLicenseUrl>
-    <PackageProjectUrl>https://github.com/cognisant/ViewModels.Core</PackageProjectUrl>
-    <PackageIconUrl>https://raw.githubusercontent.com/cognisant/ViewModels.Core/master/logo.png</PackageIconUrl>
-    <RepositoryUrl>https://github.com/cognisant/ViewModels.Core</RepositoryUrl>
-    <PackageTags>View Model, CQRS, RavenDB</PackageTags>
-    <PackageReleaseNotes>https://GitHub.com/Cognisant/ViewModels.Core/releases/tag/$(Tag)</PackageReleaseNotes>
+    <PackageProjectUrl>https://github.com/qphl/ViewModels.Core</PackageProjectUrl>
+    <PackageIconUrl>https://raw.githubusercontent.com/qphl/ViewModels.Core/master/logo.png</PackageIconUrl>
+    <RepositoryUrl>https://github.com/qphl/ViewModels.Core</RepositoryUrl>
+    <PackageTags>View Model, CQRS</PackageTags>
+    <PackageReleaseNotes>https://GitHub.com/qphl/ViewModels.Core/releases/tag/$(Tag)</PackageReleaseNotes>
+    <PackageLicenseExpression>BSD-3-Clause</PackageLicenseExpression>
+    <PackageIcon>Logo.png</PackageIcon>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <DocumentationFile>bin\Debug\netstandard2.0\CR.ViewModels.Core.xml</DocumentationFile>
+    <DocumentationFile>bin\Debug\netstandard2.0\CorshamScience.ViewModels.Core.xml</DocumentationFile>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
     <WarningsAsErrors />
-    <DocumentationFile>bin\Release\netstandard2.0\CR.ViewModels.Core.xml</DocumentationFile>
+    <DocumentationFile>bin\Release\netstandard2.0\CorshamScience.ViewModels.Core.xml</DocumentationFile>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="CR.CodeStyle.CSharp.Full" Version="[1.0.1,2.0.0-0)">
+    <PackageReference Include="CorshamScience.CodeStyle.CSharp.Full" Version="3.0.0">
       <PrivateAssets>All</PrivateAssets>
     </PackageReference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="Logo.png">
+      <PackagePath></PackagePath>
+      <Pack>True</Pack>
+    </None>
   </ItemGroup>
 
 </Project>
