@@ -11,12 +11,13 @@
     <Product>CorshamScience.ViewModels</Product>
     <Copyright>Corsham Science 2019</Copyright>
     <Description>A package containing .NET interfaces for reading/writing CQRS ViewModels in a generic way.</Description>
-    <PackageLicenseUrl>https://github.com/qphl/ViewModels.Core/blob/master/LICENSE</PackageLicenseUrl>
     <PackageProjectUrl>https://github.com/qphl/ViewModels.Core</PackageProjectUrl>
     <PackageIconUrl>https://raw.githubusercontent.com/qphl/ViewModels.Core/master/logo.png</PackageIconUrl>
     <RepositoryUrl>https://github.com/qphl/ViewModels.Core</RepositoryUrl>
     <PackageTags>View Model, CQRS, RavenDB</PackageTags>
     <PackageReleaseNotes>https://GitHub.com/qphl/ViewModels.Core/releases/tag/$(Tag)</PackageReleaseNotes>
+    <PackageLicenseExpression>BSD-3-Clause</PackageLicenseExpression>
+    <PackageIcon>Logo.png</PackageIcon>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -33,6 +34,13 @@
     <PackageReference Include="CorshamScience.CodeStyle.CSharp.Full" Version="3.0.0">
       <PrivateAssets>All</PrivateAssets>
     </PackageReference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="Logo.png">
+      <PackagePath></PackagePath>
+      <Pack>True</Pack>
+    </None>
   </ItemGroup>
 
 </Project>
