@@ -1,11 +1,12 @@
-﻿// <copyright file="EntityNotFoundException.cs" company="Cognisant">
-// Copyright (c) Cognisant. All rights reserved.
+﻿// <copyright file="EntityNotFoundException.cs" company="Corsham Science">
+// Copyright (c) Corsham Science. All rights reserved.
 // </copyright>
 
-namespace CR.ViewModels.Core.Exceptions
+namespace CorshamScience.ViewModels.Core.Exceptions
 {
     using System;
     using System.Runtime.Serialization;
+    using CorshamScience.ViewModels.Core;
 
     /// <inheritdoc />
     /// <summary>

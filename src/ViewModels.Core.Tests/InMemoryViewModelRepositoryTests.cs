@@ -1,10 +1,10 @@
-﻿// <copyright file="InMemoryViewModelRepositoryTests.cs" company="Cognisant">
-// Copyright (c) Cognisant. All rights reserved.
+﻿// <copyright file="InMemoryViewModelRepositoryTests.cs" company="Corsham Science">
+// Copyright (c) Corsham Science. All rights reserved.
 // </copyright>
 
 namespace ViewModels.Core.Tests
 {
-    using CR.ViewModels.Core;
+    using CorshamScience.ViewModels.Core;
     using NUnit.Framework;
 
     /// <inheritdoc />
