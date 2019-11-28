@@ -2,7 +2,7 @@
 // Copyright (c) Corsham Science. All rights reserved.
 // </copyright>
 
-namespace ViewModels.Core.Tests
+namespace CorshamScience.ViewModels.Core.Tests
 {
     using System;
 
@@ -45,7 +45,7 @@ namespace ViewModels.Core.Tests
         {
             unchecked
             {
-                return ((Identifier != null ? Identifier.GetHashCode() : 0) * 397) ^ Field1;
+                return (Identifier != null ? Identifier.GetHashCode() : 0) * 397 ^ Field1;
             }
         } // ReSharper restore NonReadonlyMemberInGetHashCode
     }

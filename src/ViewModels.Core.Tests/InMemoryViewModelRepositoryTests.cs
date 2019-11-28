@@ -2,7 +2,7 @@
 // Copyright (c) Corsham Science. All rights reserved.
 // </copyright>
 
-namespace ViewModels.Core.Tests
+namespace CorshamScience.ViewModels.Core.Tests
 {
     using CorshamScience.ViewModels.Core;
     using NUnit.Framework;
