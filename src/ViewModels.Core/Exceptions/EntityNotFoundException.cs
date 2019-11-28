@@ -6,7 +6,6 @@ namespace CorshamScience.ViewModels.Core.Exceptions
 {
     using System;
     using System.Runtime.Serialization;
-    using CorshamScience.ViewModels.Core;
 
     /// <inheritdoc />
     /// <summary>

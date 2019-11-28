@@ -14,7 +14,7 @@
     <PackageProjectUrl>https://github.com/qphl/ViewModels.Core</PackageProjectUrl>
     <PackageIconUrl>https://raw.githubusercontent.com/qphl/ViewModels.Core/master/logo.png</PackageIconUrl>
     <RepositoryUrl>https://github.com/qphl/ViewModels.Core</RepositoryUrl>
-    <PackageTags>View Model, CQRS, RavenDB</PackageTags>
+    <PackageTags>View Model, CQRS</PackageTags>
     <PackageReleaseNotes>https://GitHub.com/qphl/ViewModels.Core/releases/tag/$(Tag)</PackageReleaseNotes>
     <PackageLicenseExpression>BSD-3-Clause</PackageLicenseExpression>
     <PackageIcon>Logo.png</PackageIcon>
