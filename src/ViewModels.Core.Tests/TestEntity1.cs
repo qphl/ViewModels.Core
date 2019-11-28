@@ -45,7 +45,7 @@ namespace CorshamScience.ViewModels.Core.Tests
         {
             unchecked
             {
-                return (Identifier != null ? Identifier.GetHashCode() : 0) * 397 ^ (Field1 != null ? Field1.GetHashCode() : 0);
+                return ((Identifier != null ? Identifier.GetHashCode() : 0) * 397) ^ (Field1 != null ? Field1.GetHashCode() : 0);
             }
         } // ReSharper restore NonReadonlyMemberInGetHashCode
     }
