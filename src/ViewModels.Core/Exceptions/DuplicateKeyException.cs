@@ -1,8 +1,8 @@
-﻿// <copyright file="DuplicateKeyException.cs" company="Corsham Science">
-// Copyright (c) Corsham Science. All rights reserved.
+﻿// <copyright file="DuplicateKeyException.cs" company="Cognisant">
+// Copyright (c) Cognisant. All rights reserved.
 // </copyright>
 
-namespace CorshamScience.ViewModels.Core.Exceptions
+namespace CR.ViewModels.Core.Exceptions
 {
     using System;
     using System.Runtime.Serialization;

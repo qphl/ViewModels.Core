@@ -10,5 +10,5 @@ SET TAG=%TAG:tags/=%
 dotnet test .\src\ViewModels.Core.Tests\ViewModels.Core.Tests.csproj
 if %errorlevel% neq 0 exit /b %errorlevel%
 
-dotnet pack .\src\ViewModels.Core\ViewModels.Core.csproj -o .\dist -p:Version=%version% -p:PackageVersion=%version% -p:Tag="%TAG%" -c Release
+dotnet pack .\src\ViewModels.Core\ViewModels.Core.csproj -o ..\..\dist -p:Version=%version% -p:PackageVersion=%version% -p:Tag="%TAG%" -c Release
 exit /b %errorlevel%

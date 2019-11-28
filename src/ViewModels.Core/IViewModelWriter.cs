@@ -1,12 +1,12 @@
-﻿// <copyright file="IViewModelWriter.cs" company="Corsham Science">
-// Copyright (c) Corsham Science. All rights reserved.
+﻿// <copyright file="IViewModelWriter.cs" company="Cognisant">
+// Copyright (c) Cognisant. All rights reserved.
 // </copyright>
 
-namespace CorshamScience.ViewModels.Core
+namespace CR.ViewModels.Core
 {
     using System;
     using System.Linq.Expressions;
-    using CorshamScience.ViewModels.Core.Exceptions;
+    using Exceptions;
 
     /// <summary>
     /// An interface that will be extended by any class that allows for writing view models.
@@ -54,7 +54,7 @@ namespace CorshamScience.ViewModels.Core
         /// <param name="key">The key of the view model being deleted.</param>
         /// <exception cref="ArgumentNullException">Exception will be thrown whenever null is passed in for parameter key.</exception>
         /// <exception cref="ArgumentException">Exception will be thrown whenever an empty string is passed in for parameter key.</exception>
-        /// <exception cref="EntityNotFoundException">Exception will be thrown when attempting to delete a key that is not present in the view model storage.</exception>
+        /// <exception cref="EntityNotFoundException">Exception will be thrown when attempting to delete a key that is not present in the view model storage</exception>
         void Delete<TEntity>(string key)
             where TEntity : class;
 

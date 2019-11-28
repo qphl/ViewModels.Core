@@ -1,8 +1,8 @@
-﻿// <copyright file="IViewModelReader.cs" company="Corsham Science">
-// Copyright (c) Corsham Science. All rights reserved.
+﻿// <copyright file="IViewModelReader.cs" company="Cognisant">
+// Copyright (c) Cognisant. All rights reserved.
 // </copyright>
 
-namespace CorshamScience.ViewModels.Core
+namespace CR.ViewModels.Core
 {
     using System;
     using System.Linq;
@@ -27,7 +27,7 @@ namespace CorshamScience.ViewModels.Core
         /// Allows for querying over all view models of type TEntity in the view model reader.
         /// </summary>
         /// <typeparam name="TEntity">The type of the view model to query over.</typeparam>
-        /// <returns>A queryable that can be used to query the view model reader for type TEntity.</returns>
+        /// <returns>A queryable that can be used to query the view model reader for type TEntity</returns>
         IQueryable<TEntity> Query<TEntity>()
             where TEntity : class;
     }
