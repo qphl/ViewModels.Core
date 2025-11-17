@@ -25,7 +25,9 @@ namespace CorshamScience.ViewModels.Core
         /// <summary>
         /// Initializes a new instance of the <see cref="InMemoryViewModelRepository"/> class which reads view models from, and writes them to, a .Net ConcurrentDictionary stored in memory.
         /// </summary>
-        public InMemoryViewModelRepository() => _entityCollections = new ConcurrentDictionary<Type, object>();
+        /// <param name="entityCollections">An optional dictionary to enable preloaded state to be provided.</param>
+        public InMemoryViewModelRepository(ConcurrentDictionary<Type, object> entityCollections = null) =>
+            _entityCollections = entityCollections ?? new ConcurrentDictionary<Type, object>();
 
         /// <summary>
         /// Gets the underlying dictionary which stores all of the entities in the <see cref="InMemoryViewModelRepository"/>.
