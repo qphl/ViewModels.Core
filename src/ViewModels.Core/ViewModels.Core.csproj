@@ -3,13 +3,13 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
-    <AssemblyName>CorshamScience.ViewModels.Core</AssemblyName>
-    <RootNamespace>CorshamScience.ViewModels.Core</RootNamespace>
-    <PackageId>CorshamScience.ViewModels.Core</PackageId>
-    <Authors>Corsham Science</Authors>
-    <Company>Corsham Science</Company>
+    <AssemblyName>PharmaxoScientific.ViewModels.Core</AssemblyName>
+    <RootNamespace>PharmaxoScientific.ViewModels.Core</RootNamespace>
+    <PackageId>PharmaxoScientific.ViewModels.Core</PackageId>
+    <Authors>Pharmaxo Scientific</Authors>
+    <Company>Pharmaxo Scientific</Company>
     <Product>CorshamScience.ViewModels</Product>
-    <Copyright>Corsham Science 2019</Copyright>
+    <Copyright>Pharmaxo Scientific 2025</Copyright>
     <Description>A package containing .NET interfaces for reading/writing CQRS ViewModels in a generic way.</Description>
     <PackageProjectUrl>https://github.com/qphl/ViewModels.Core</PackageProjectUrl>
     <PackageIconUrl>https://raw.githubusercontent.com/qphl/ViewModels.Core/master/logo.png</PackageIconUrl>
@@ -21,13 +21,13 @@
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <DocumentationFile>bin\Debug\netstandard2.0\CorshamScience.ViewModels.Core.xml</DocumentationFile>
+    <DocumentationFile>bin\Debug\netstandard2.0\PharmaxoScientific.ViewModels.Core.xml</DocumentationFile>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
     <WarningsAsErrors />
-    <DocumentationFile>bin\Release\netstandard2.0\CorshamScience.ViewModels.Core.xml</DocumentationFile>
+    <DocumentationFile>bin\Release\netstandard2.0\PharmaxoScientific.ViewModels.Core.xml</DocumentationFile>
   </PropertyGroup>
 
   <ItemGroup>
@@ -38,7 +38,6 @@
 
   <ItemGroup>
     <None Include="Logo.png">
-      <PackagePath></PackagePath>
       <Pack>True</Pack>
     </None>
   </ItemGroup>
