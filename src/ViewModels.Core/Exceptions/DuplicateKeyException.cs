@@ -2,7 +2,7 @@
 // Copyright (c) Corsham Science. All rights reserved.
 // </copyright>
 
-namespace CorshamScience.ViewModels.Core.Exceptions
+namespace PharmaxoScientific.ViewModels.Core.Exceptions
 {
     using System;
     using System.Runtime.Serialization;

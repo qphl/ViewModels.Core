@@ -2,14 +2,14 @@
 // Copyright (c) Corsham Science. All rights reserved.
 // </copyright>
 
-namespace CorshamScience.ViewModels.Core
+namespace PharmaxoScientific.ViewModels.Core
 {
     using System;
     using System.Collections.Concurrent;
     using System.Collections.Generic;
     using System.Linq;
     using System.Linq.Expressions;
-    using CorshamScience.ViewModels.Core.Exceptions;
+    using PharmaxoScientific.ViewModels.Core.Exceptions;
 
     /// <inheritdoc cref="IViewModelReader"/>
     /// <inheritdoc cref="IViewModelWriter"/>
