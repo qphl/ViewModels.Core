@@ -2,15 +2,15 @@
 // Copyright (c) Corsham Science. All rights reserved.
 // </copyright>
 
-namespace CorshamScience.ViewModels.Core.Tests
+namespace PharmaxoScientific.ViewModels.Core.Tests
 {
     using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Linq.Expressions;
-    using CorshamScience.ViewModels.Core;
-    using CorshamScience.ViewModels.Core.Exceptions;
     using NUnit.Framework;
+    using PharmaxoScientific.ViewModels.Core;
+    using PharmaxoScientific.ViewModels.Core.Exceptions;
 
     /// <summary>
     /// A Test Fixture for a View Model Repository.

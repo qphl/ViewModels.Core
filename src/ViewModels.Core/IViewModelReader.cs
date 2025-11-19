@@ -2,7 +2,7 @@
 // Copyright (c) Corsham Science. All rights reserved.
 // </copyright>
 
-namespace CorshamScience.ViewModels.Core
+namespace PharmaxoScientific.ViewModels.Core
 {
     using System;
     using System.Linq;

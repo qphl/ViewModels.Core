@@ -2,11 +2,11 @@
 // Copyright (c) Corsham Science. All rights reserved.
 // </copyright>
 
-namespace CorshamScience.ViewModels.Core
+namespace PharmaxoScientific.ViewModels.Core
 {
     using System;
     using System.Linq.Expressions;
-    using CorshamScience.ViewModels.Core.Exceptions;
+    using PharmaxoScientific.ViewModels.Core.Exceptions;
 
     /// <summary>
     /// An interface that will be extended by any class that allows for writing view models.
